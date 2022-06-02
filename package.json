@@ -1,0 +1,12 @@
+{
+  "name": "geometry",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p src/tsconfig.json",
+    "watch": "npm run build -- --watch"
+  },
+  "author": "Jimmy Affatigato",
+  "license": "MIT"
+}
