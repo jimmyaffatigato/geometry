@@ -14,6 +14,7 @@ declare class Rectangle implements Geometry<Rectangle>, Size, Bounds, Position<R
     get top(): number;
     get bottom(): number;
     constructor(position: Point, size: Point);
+    constructor(x: number, y: number, width: number, height: number);
     clone(): Rectangle;
     match(rectangle: Rectangle): boolean;
     translate(point: Point): Rectangle;

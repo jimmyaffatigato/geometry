@@ -1,9 +1,16 @@
+import Point from "./Point.js";
 class Rectangle {
-    constructor(position, size) {
+    constructor(a, b, c, d) {
         this.type = "rectangle";
         this.type = "rectangle";
-        this.position = position;
-        this.size = size;
+        if (typeof a == "number" && typeof b == "number" && typeof c == "number" && typeof d == "number") {
+            this.position = new Point(a, b);
+            this.size = new Point(c, d);
+        }
+        else if (a instanceof Point && b instanceof Point) {
+            this.position = a;
+            this.size = b;
+        }
     }
     get area() {
         return this.width * this.height;
