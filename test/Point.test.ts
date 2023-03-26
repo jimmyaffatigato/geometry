@@ -64,7 +64,44 @@ test("Point.scale(number)", () => {
     expect(point.y).toBe(y * factor);
 });
 
-test("Point.scale(Point)", () => {});
+test("Point.scale(Point)", () => {
+    const x = Math.random();
+    const y = Math.random();
+    const factor = new Point(2, 2);
+    const point = new Point(x, y).scale(factor);
+    expect(point.x).toBe(x * factor.x);
+    expect(point.y).toBe(y * factor.y);
+});
+
+test("Point.floor()", () => {
+    const x = Math.random() * 10;
+    const y = Math.random() * 10;
+    const point = new Point(x, y).floor();
+    expect(point.x).toBe(Math.floor(x));
+    expect(point.y).toBe(Math.floor(y));
+});
+
+test("Point.absolute()", () => {
+    const x = -10;
+    const y = -20;
+    const point = new Point(x, y).absolute();
+    expect(point.x).toBe(10);
+    expect(point.y).toBe(20);
+});
+
+test("Point.difference()", () => {
+    const x1 = Math.random();
+    const y1 = Math.random();
+    const point1 = new Point(x1, y1);
+    const x2 = Math.random();
+    const y2 = Math.random();
+    const point2 = new Point(x2, y2);
+    const difference = point1.difference(point2);
+    expect(difference.x).toBe(x2 - x1);
+    expect(difference.y).toBe(y2 - y1);
+});
+
+test("Point.isWithin()", () => {});
 
 test("Point.rotate(number)", () => {
     const x = Math.random();

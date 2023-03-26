@@ -16,8 +16,8 @@ class Angle implements Geometry<Angle> {
         return this.rotate((Math.PI / 180) * degrees);
     }
 
-    public toVector(): Vector {
-        return new Vector(this);
+    public toVector(magnitude?: number): Vector {
+        return new Vector(this, magnitude);
     }
 
     // Geometry
@@ -52,6 +52,10 @@ class Angle implements Geometry<Angle> {
      */
     public static degrees(degrees: number): Angle {
         return new Angle(degrees * (Math.PI / 180));
+    }
+
+    public static random(): Angle {
+        return new Angle(Math.random() * Math.PI * 2);
     }
 }
 

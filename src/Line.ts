@@ -72,6 +72,10 @@ class Line implements Geometry<Line> {
         this.origin = origin;
         this.end = end;
     }
+
+    public static random(): Line {
+        return new Line(Point.random(), Point.random());
+    }
 }
 
 export default Line;

@@ -135,6 +135,10 @@ class Rectangle implements Geometry<Rectangle>, Position<Rectangle>, Size, Bound
             this.size = b;
         }
     }
+
+    public static random(): Rectangle {
+        return new Rectangle(Point.random(), Point.random());
+    }
 }
 
 export default Rectangle;

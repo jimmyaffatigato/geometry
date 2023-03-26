@@ -6,12 +6,21 @@ class Scalar implements Geometry<Scalar> {
     public readonly max: number;
     public readonly min: number;
 
-    public setValue(value: number): Scalar {
-        if (value > this.max) {
-            return this.maximize();
-        }
-        if (value < this.min) {
-            return this.minimize();
+    public setValue(value: number | Scalar): Scalar {
+        if (typeof value == "number") {
+            if (value > this.max) {
+                return this.maximize();
+            }
+            if (value < this.min) {
+                return this.minimize();
+            }
+        } else if (value instanceof Scalar) {
+            if (value.value > this.max) {
+                return this.maximize();
+            }
+            if (value.value < this.min) {
+                return this.minimize();
+            }
         }
         return new Scalar(value, this.max, this.min);
     }

@@ -48,11 +48,15 @@ class Point implements Geometry<Point>, Position {
         return new Point(this.x + distance.x, this.y + distance.y);
     }
 
-    public scale(factor: Point | number): Point {
-        if (typeof factor == "number") {
-            return new Point(this.x * factor, this.y * factor);
+    public scale(factor: number): Point;
+    public scale(point: Point): Point;
+    public scale(factor: Point | number): Point;
+    public scale(a: Point | number): Point {
+        if (typeof a == "number") {
+            return new Point(this.x * a, this.y * a);
+        } else if (a instanceof Point) {
+            return new Point(this.x * a.x, this.y * a.y);
         }
-        return new Point(this.x * factor.x, this.y * factor.y);
     }
 
     public floor(): Point {
