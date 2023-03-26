@@ -1,8 +1,9 @@
 import Point from "./Point.js";
 
-export interface Geometry<T> {
+export interface Geometry<S> {
     type: string;
-    clone(): T;
+    clone(): S;
+    match(shape: S): boolean;
     toString(): string;
 }
 
@@ -20,14 +21,7 @@ export interface Bounds {
 }
 
 export interface Position<T = Point> {
-    position: Point;
+    origin: Point;
     translate(point: Point): T;
     setPosition(position: Point): T;
-}
-
-export interface Angle<T> {
-    angle: number;
-    setAngle(angle: number): T;
-    rotate(rad: number): T;
-    rotateByDegree(degree: number): T;
 }

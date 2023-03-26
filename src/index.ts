@@ -1,8 +1,8 @@
-export { Geometry } from "./Geometry.js";
+export { Geometry as Geometry } from "./Geometry.js";
+export { Position } from "./Geometry.js";
 export { Size } from "./Geometry.js";
 export { Bounds } from "./Geometry.js";
-export { Position } from "./Geometry.js";
-export { Angle } from "./Geometry.js";
+export { default as Angle } from "./Angle.js";
 export { default as Grid } from "./Grid.js";
 export { default as Line } from "./Line.js";
 export { default as Point } from "./Point.js";
