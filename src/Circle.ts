@@ -17,9 +17,7 @@ class Circle implements Geometry<Circle>, Position<Circle>, Bounds {
         return 2 * Math.PI * this.radius;
     }
 
-    public get size(): Point {
-        return new Point(this.diameter, this.diameter);
-    }
+    // Position
 
     public get position(): Point {
         return this.origin;
@@ -33,6 +31,20 @@ class Circle implements Geometry<Circle>, Position<Circle>, Bounds {
         return this.origin.y;
     }
 
+    public setPosition(position: Point): Circle {
+        return new Circle(position, this.radius);
+    }
+
+    public translate(point: Point): Circle {
+        return this.setPosition(this.position.translate(point));
+    }
+
+    // Size
+
+    public get size(): Point {
+        return new Point(this.diameter, this.diameter);
+    }
+
     public get width(): number {
         return this.size.x;
     }
@@ -40,6 +52,8 @@ class Circle implements Geometry<Circle>, Position<Circle>, Bounds {
     public get height(): number {
         return this.size.y;
     }
+
+    // Bounds
 
     public get left(): number {
         return this.x - this.radius;
@@ -57,6 +71,10 @@ class Circle implements Geometry<Circle>, Position<Circle>, Bounds {
         return this.y + this.radius;
     }
 
+    public contains(point: Point): boolean {
+        return point.distance(this.origin) <= this.radius;
+    }
+
     // Geometry
 
     public readonly type = "circle";
@@ -69,26 +87,14 @@ class Circle implements Geometry<Circle>, Position<Circle>, Bounds {
         return circle.origin.match(this.origin) && circle.radius == this.radius;
     }
 
-    constructor(position: Point, radius: number) {
-        this.origin = position;
-        this.radius = radius;
-    }
-
-    public translate(point: Point): Circle {
-        return new Circle(this.origin.translate(point), this.radius);
-    }
-
-    public setPosition(position: Point): Circle {
-        return new Circle(position, this.radius);
-    }
-
-    public contains(point: Point): boolean {
-        return point.distance(this.origin) <= this.radius;
-    }
-
     public toString(digits: number = 2): string {
         const { x, y, radius } = this;
         return `[x: ${x.toFixed(digits)}, y: ${y.toFixed(digits)}, r: ${radius}]`;
+    }
+
+    constructor(position: Point, radius: number) {
+        this.origin = position;
+        this.radius = radius;
     }
 }
 

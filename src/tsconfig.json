@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
-    "lib": ["ES2021"],
+    "target": "ES2022",
+    "lib": ["ES2022"],
     "declaration": true,
-    "sourceMap": true,
-    "module": "ES2020",
-    "moduleResolution": "node",
-    "outDir": "../dist"
+    "module": "ES2022",
+    "moduleResolution": "node"
   }
 }

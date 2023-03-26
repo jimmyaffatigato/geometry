@@ -1,7 +1,7 @@
-import Angle from "./Angle.js";
-import { Geometry } from "./Geometry.js";
-import Line from "./Line.js";
-import Point from "./Point.js";
+import Angle from "./Angle";
+import { Geometry } from "./Geometry";
+import Line from "./Line";
+import Point from "./Point";
 
 class Vector implements Geometry<Vector> {
     public readonly angle: Angle;

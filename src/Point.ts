@@ -1,9 +1,9 @@
-import Angle from "./Angle.js";
-import { Geometry, Position } from "./Geometry.js";
-import Line from "./Line.js";
-import Scalar from "./Scalar.js";
-import Vector from "./Vector.js";
+import Angle from "./Angle";
+import { Geometry, Position } from "./Geometry";
+import Scalar from "./Scalar";
+import Vector from "./Vector";
 
+// TODO: Accept Scalar parameters anywhere numbers are used
 class Point implements Geometry<Point>, Position {
     private _x: Scalar;
     private _y: Scalar;
@@ -15,14 +15,25 @@ class Point implements Geometry<Point>, Position {
         return this._y.value;
     }
 
-    public get origin(): Point {
+    public get position(): Point {
         return this.clone();
     }
 
     // Transformations
 
-    public setPosition(position: Point): Point {
-        return new Point(position.x, position.y);
+    public setPosition(point: Point): Point;
+    public setPosition(x: number, y: number): Point;
+    public setPosition(a: Point | number, b?: number): Point {
+        let x = 0;
+        let y = 0;
+        if (typeof a == "number" && typeof b == "number") {
+            x = a;
+            y = b;
+        } else if (a instanceof Point) {
+            x = a.x;
+            y = a.y;
+        }
+        return new Point(x, y);
     }
 
     public translateX(distance: number): Point {
@@ -116,10 +127,10 @@ class Point implements Geometry<Point>, Position {
     /**
      * Creates a new Point with the given position
      */
-    constructor(point: Point);
-    constructor(xy: [number, number]);
     constructor(x: number, y: number);
     constructor(x: Scalar, y: Scalar);
+    constructor(xy: [number, number]);
+    constructor(point: Point);
     constructor(a: number | Scalar | Point | [number, number], b?: number | Scalar) {
         let x = 0;
         let y = 0;
@@ -131,7 +142,7 @@ class Point implements Geometry<Point>, Position {
             y = a.y;
         } else if (Array.isArray(a)) {
             x = a[0];
-            x = a[1];
+            y = a[1];
         } else if (a instanceof Scalar && b instanceof Scalar) {
             x = a.value;
             y = b.value;
@@ -154,6 +165,10 @@ class Point implements Geometry<Point>, Position {
      */
     public static get one(): Point {
         return new Point(1, 1);
+    }
+
+    public static random(): Point {
+        return new Point(Math.random(), Math.random());
     }
 }
 

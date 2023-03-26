@@ -1,10 +1,16 @@
-import Point from "./Point.js";
+import Point from "./Point";
 
 export interface Geometry<S> {
     type: string;
     clone(): S;
     match(shape: S): boolean;
     toString(): string;
+}
+
+export interface Position<T = Point> {
+    position: Point;
+    translate(point: Point): T;
+    setPosition(position: Point): T;
 }
 
 export interface Size {
@@ -18,10 +24,4 @@ export interface Bounds {
     bottom: number;
     right: number;
     contains(point: Point): boolean;
-}
-
-export interface Position<T = Point> {
-    origin: Point;
-    translate(point: Point): T;
-    setPosition(position: Point): T;
 }

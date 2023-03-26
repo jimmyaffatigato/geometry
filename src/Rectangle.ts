@@ -1,21 +1,21 @@
-import { Geometry, Bounds, Size, Position } from "./Geometry.js";
-import Point from "./Point.js";
+import { Geometry, Bounds, Size, Position } from "./Geometry";
+import Point from "./Point";
 
 class Rectangle implements Geometry<Rectangle>, Position<Rectangle>, Size, Bounds {
     //Position
 
-    public readonly origin: Point;
+    public readonly position: Point;
 
     public get x(): number {
-        return this.origin.x;
+        return this.position.x;
     }
 
     public get y(): number {
-        return this.origin.y;
+        return this.position.y;
     }
 
     public translate(point: Point): Rectangle {
-        return new Rectangle(this.origin.translate(point), this.size);
+        return new Rectangle(this.position.translate(point), this.size);
     }
 
     public setPosition(position: Point): Rectangle {
@@ -39,11 +39,11 @@ class Rectangle implements Geometry<Rectangle>, Position<Rectangle>, Size, Bound
     }
 
     public scale(factor: Point | number): Rectangle {
-        return new Rectangle(this.origin, this.size.scale(factor));
+        return new Rectangle(this.position, this.size.scale(factor));
     }
 
     public expand(amount: Point): Rectangle {
-        return new Rectangle(this.origin.translate(amount.reflect()), this.size.translate(amount.scale(2)));
+        return new Rectangle(this.position.translate(amount.reflect()), this.size.translate(amount.scale(2)));
     }
 
     // Bounds
@@ -69,15 +69,15 @@ class Rectangle implements Geometry<Rectangle>, Position<Rectangle>, Size, Bound
     }
 
     public reflect(): Rectangle {
-        return new Rectangle(this.origin.reflect(), this.size.reflect());
+        return new Rectangle(this.position.reflect(), this.size.reflect());
     }
 
     public reflectX(): Rectangle {
-        return new Rectangle(this.origin.reflectX(), this.size.reflectX());
+        return new Rectangle(this.position.reflectX(), this.size.reflectX());
     }
 
     public reflectY(): Rectangle {
-        return new Rectangle(this.origin.reflectY(), this.size.reflectY());
+        return new Rectangle(this.position.reflectY(), this.size.reflectY());
     }
 
     public intersects(rectangle: Rectangle): boolean {
@@ -90,7 +90,7 @@ class Rectangle implements Geometry<Rectangle>, Position<Rectangle>, Size, Bound
     }
 
     public floor(): Rectangle {
-        return new Rectangle(this.origin.floor(), this.size.floor());
+        return new Rectangle(this.position.floor(), this.size.floor());
     }
 
     // Format
@@ -108,11 +108,11 @@ class Rectangle implements Geometry<Rectangle>, Position<Rectangle>, Size, Bound
     public readonly type = "rectangle";
 
     public clone(): Rectangle {
-        return new Rectangle(this.origin, this.size);
+        return new Rectangle(this.position, this.size);
     }
 
     public match(rectangle: Rectangle): boolean {
-        return this.origin.match(rectangle.origin) && this.size.match(rectangle.size);
+        return this.position.match(rectangle.position) && this.size.match(rectangle.size);
     }
 
     /**
@@ -128,10 +128,10 @@ class Rectangle implements Geometry<Rectangle>, Position<Rectangle>, Size, Bound
     constructor(a: Point | number, b: Point | number, c?: number, d?: number) {
         this.type = "rectangle";
         if (typeof a == "number" && typeof b == "number" && typeof c == "number" && typeof d == "number") {
-            this.origin = new Point(a, b);
+            this.position = new Point(a, b);
             this.size = new Point(c, d);
         } else if (a instanceof Point && b instanceof Point) {
-            this.origin = a;
+            this.position = a;
             this.size = b;
         }
     }

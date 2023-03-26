@@ -1,6 +1,5 @@
-import { arrayOf } from "./Grid.js";
-import { Geometry } from "./Geometry.js";
-import Grid from "./Grid.js";
+import { Geometry } from "./Geometry";
+import Grid, { arrayOf } from "./Grid";
 
 class Row implements Geometry<Row> {
     public readonly type = "row";

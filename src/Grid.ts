@@ -1,6 +1,6 @@
-import { Geometry, Size } from "./Geometry.js";
-import Point from "./Point.js";
-import Row from "./Row.js";
+import { Geometry, Size } from "./Geometry";
+import Point from "./Point";
+import Row from "./Row";
 
 export const arrayOf = <T>(length: number, f: (i: number) => T): T[] => {
     const r: T[] = [];
