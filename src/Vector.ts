@@ -1,77 +1,82 @@
-import Angle from "./Angle";
-import { Geometry } from "./Geometry";
+import Angle, { AngleProps } from "./Angle";
+import Geometry, { RESOLUTION } from "./Geometry";
 import Line from "./Line";
 import Point from "./Point";
 
-class Vector implements Geometry<Vector> {
-    public readonly angle: Angle;
-    public readonly magnitude: number;
+export interface VectorProps {
+    type: "vector";
+    direction: AngleProps;
+    magnitude: number;
+}
 
-    public setMagnitude(magnitude: number): Vector {
-        return new Vector(this.angle, magnitude);
+class Vector extends Geometry<Vector> {
+    readonly direction: Angle;
+    readonly magnitude: number;
+
+    scale(factor: number): Vector {
+        return new Vector(this.direction, this.magnitude * factor);
     }
 
-    public scale(factor: number): Vector {
-        return new Vector(this.angle, this.magnitude * factor);
+    setDirection(direction: Angle): Vector {
+        return new Vector(direction, this.magnitude);
     }
 
-    public setAngle(angle: Angle): Vector {
-        return new Vector(angle, this.magnitude);
+    setMagnitude(magnitude: number): Vector {
+        return new Vector(this.direction, magnitude);
     }
 
     /**
      * Rotates the Vector by radians
      */
-    public rotate(radians: number): Vector {
-        return new Vector(this.angle.rotate(radians), this.magnitude);
+    rotate(radians: number): Vector {
+        return new Vector(this.direction.rotate(radians), this.magnitude);
     }
 
     /**
      * Rotates the Vector by degrees
      */
-    public rotateByDegrees(degrees: number): Vector {
+    rotateByDegrees(degrees: number): Vector {
         return this.rotate((Math.PI / 180) * degrees);
     }
 
-    // Format
-
-    public toPoint(): Point {
-        return new Point(Math.cos(this.angle.radians) * this.magnitude, Math.sin(this.angle.radians) * this.magnitude);
+    clone(): Vector {
+        return new Vector(this.direction, this.magnitude);
     }
 
-    public toLine(origin: Point = Point.zero): Line {
+    match(vector: Vector): boolean {
+        return vector.direction == this.direction && vector.magnitude == this.magnitude;
+    }
+
+    toPoint(): Point {
+        return new Point(
+            Math.cos(this.direction.radians) * this.magnitude,
+            Math.sin(this.direction.radians) * this.magnitude
+        );
+    }
+
+    toLine(origin: Point = Point.zero): Line {
         return new Line(Point.zero, this.toPoint()).translate(origin);
     }
 
-    // Geometry
-    public readonly type = "vector";
-
-    public clone(): Vector {
-        return new Vector(this.angle, this.magnitude);
+    toObject(): VectorProps {
+        return { type: "vector", direction: this.direction.toObject(), magnitude: this.magnitude };
     }
 
-    public match(vector: Vector): boolean {
-        return vector.angle == this.angle && vector.magnitude == this.magnitude;
-    }
-
-    public floor(): Vector {
-        return new Vector(this.angle, Math.floor(this.magnitude));
-    }
-
-    public absolute(): Vector {
-        return new Vector(this.angle.absolute(), Math.abs(this.magnitude));
-    }
-
-    public toString(digits: number = 2): string {
-        return `${this.angle.degrees.toFixed(digits)}° x ${this.magnitude.toFixed(digits)}`;
+    toString(digits: number = 2): string {
+        return `${this.direction.degrees.toFixed(digits)}° x ${this.magnitude.toFixed(digits)}`;
     }
 
     constructor(angle: Angle, magnitude: number = 0) {
-        this.angle = angle;
+        super("vector");
+        this.direction = angle;
         this.magnitude = magnitude;
     }
 
-    public static get zero(): Vector {
+    static fromObject(obj: VectorProps): Vector {
+        return new Vector(Angle.fromObject(obj.direction), obj.magnitude);
+    }
+
+    static get zero(): Vector {
         return new Vector(new Angle(0));
     }
 }

@@ -6,7 +6,9 @@
   "scripts": {
     "build": "esbuild ./src/index.ts --bundle --platform=node --outfile=./dist/index.js --minify=true",
     "watch": "npm run build -- --watch",
-    "test": "jest --coverage"
+    "test": "jest --config=test/all-tests.config.js",
+    "qt": "jest --config=test/quick-test.config.js",
+    "coverage": "jest --config=test/coverage.config.js"
   },
   "author": "Jimmy Affatigato",
   "license": "MIT",

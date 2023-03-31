@@ -1,8 +1,8 @@
-import { Geometry } from "./Geometry";
+import Geometry from "./Geometry";
 import Line from "./Line";
 import Point from "./Point";
 
-class Path implements Geometry<Path> {
+class Path extends Geometry<Path> {
     public points: readonly Point[];
 
     public get segments(): readonly Line[] {
@@ -29,8 +29,6 @@ class Path implements Geometry<Path> {
         });
     }
 
-    public readonly type = "path";
-
     public clone(): Path {
         return new Path(this.points.slice());
     }
@@ -56,6 +54,7 @@ class Path implements Geometry<Path> {
     }
 
     constructor(points: readonly Point[]) {
+        super("path");
         this.points = points;
     }
 }

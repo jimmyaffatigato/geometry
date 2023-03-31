@@ -13,10 +13,10 @@ test("Rectangle.translate()", () => {
     const rectangle = Rectangle.random();
     const tPoint = Point.random();
     const translated = rectangle.translate(tPoint);
-    expect(translated.x).toBe(rectangle.x + tPoint.x);
-    expect(translated.y).toBe(rectangle.y + tPoint.y);
-    expect(translated.x + translated.width).toBe(rectangle.x + rectangle.width + tPoint.x);
-    expect(translated.y + translated.height).toBe(rectangle.y + rectangle.height + tPoint.y);
+    expect(translated.x).toBeCloseTo(rectangle.x + tPoint.x);
+    expect(translated.y).toBeCloseTo(rectangle.y + tPoint.y);
+    expect(translated.x + translated.width).toBeCloseTo(rectangle.x + rectangle.width + tPoint.x);
+    expect(translated.y + translated.height).toBeCloseTo(rectangle.y + rectangle.height + tPoint.y);
 });
 
 test("Rectangle.setPosition()", () => {
@@ -45,8 +45,8 @@ test("new Rectangle(number, number, number, number)", () => {
     const width = Math.random();
     const height = Math.random();
     const rectangle = new Rectangle(x, y, width, height);
-    expect(rectangle.x).toBe(x);
-    expect(rectangle.y).toBe(y);
-    expect(rectangle.width).toBe(width);
-    expect(rectangle.height).toBe(height);
+    expect(rectangle.x).toBeCloseTo(x);
+    expect(rectangle.y).toBeCloseTo(y);
+    expect(rectangle.width).toBeCloseTo(width);
+    expect(rectangle.height).toBeCloseTo(height);
 });

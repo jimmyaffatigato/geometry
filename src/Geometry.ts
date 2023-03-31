@@ -1,27 +1,15 @@
-import Point from "./Point";
+export const RESOLUTION = 1_000_000;
 
-export interface Geometry<S> {
-    type: string;
-    clone(): S;
-    match(shape: S): boolean;
-    toString(): string;
+abstract class Geometry<S> {
+    readonly type: string;
+
+    constructor(type: string) {
+        this.type = type;
+    }
+
+    abstract clone(): S;
+    abstract match(shape: S): boolean;
+    abstract toString(): string;
 }
 
-export interface Position<T = Point> {
-    position: Point;
-    translate(point: Point): T;
-    setPosition(position: Point): T;
-}
-
-export interface Size {
-    size: Point;
-    area: number;
-}
-
-export interface Bounds {
-    top: number;
-    left: number;
-    bottom: number;
-    right: number;
-    contains(point: Point): boolean;
-}
+export default Geometry;

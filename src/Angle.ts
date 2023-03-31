@@ -1,60 +1,96 @@
-import { Geometry } from "./Geometry";
+import Geometry from "./Geometry";
 import Vector from "./Vector";
+import { degreesToRadians, radiansToDegrees } from "./util";
 
-class Angle implements Geometry<Angle> {
+export interface AngleProps {
+    type: "angle";
+    radians: number;
+}
+
+/**
+ * The Angle class contains a radians property and various helper functions for working with angles.
+ */
+class Angle extends Geometry<Angle> {
     radians: number;
 
-    public get degrees(): number {
-        return this.radians / (Math.PI / 180);
+    get degrees(): number {
+        return radiansToDegrees(this.radians);
     }
 
-    public rotate(radians: number): Angle {
+    /**
+     * Rotate by radians.
+     * @param {number} radians
+     * @returns {Angle}
+     */
+    rotate(radians: number): Angle {
         return new Angle(this.radians + radians);
     }
 
-    public rotateByDegrees(degrees: number): Angle {
-        return this.rotate((Math.PI / 180) * degrees);
+    /**
+     * Rotate by degrees.
+     * @param degrees
+     * @returns
+     */
+    rotateByDegrees(degrees: number): Angle {
+        return this.rotate(degreesToRadians(degrees));
     }
 
-    public toVector(magnitude?: number): Vector {
-        return new Vector(this, magnitude);
+    multiply(factor: number): Angle {
+        return new Angle(this.radians * factor);
     }
 
-    // Geometry
-    public readonly type = "angle";
-
-    public clone(): Angle {
-        return new Angle(this.radians);
-    }
-
-    public match(angle: Angle): boolean {
+    match(angle: Angle): boolean {
         return this.radians == angle.radians;
     }
 
-    public floor(): Angle {
-        return new Angle(Math.floor(this.radians));
+    /**
+     * Returns a new Angle instance with the same properties
+     */
+    clone(): Angle {
+        return new Angle(this.radians);
     }
 
-    public absolute(): Angle {
-        return new Angle(Math.abs(this.radians));
+    /**
+     *
+     */
+    toVector(magnitude?: number): Vector {
+        return new Vector(this, magnitude);
     }
 
-    public toString(): string {
+    toObject(): AngleProps {
+        return { type: "angle", radians: this.radians };
+    }
+
+    /**
+     *
+     */
+    toString(): string {
         return `${this.degrees}° (${this.radians})`;
     }
 
+    /**
+     * Creates an Angle from radians
+     */
     constructor(radians: number) {
+        super("angle");
         this.radians = radians;
     }
 
     /**
-     * Creates an Angle from an angle in degrees and a magnitude.
+     * Creates an Angle from degrees
      */
-    public static degrees(degrees: number): Angle {
-        return new Angle(degrees * (Math.PI / 180));
+    static fromDegrees(degrees: number): Angle {
+        return new Angle(degreesToRadians(degrees));
     }
 
-    public static random(): Angle {
+    static fromObject(obj: AngleProps): Angle {
+        return new Angle(obj.radians);
+    }
+
+    /**
+     * Creates a random Angle
+     */
+    static random(): Angle {
         return new Angle(Math.random() * Math.PI * 2);
     }
 }

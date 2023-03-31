@@ -1,96 +1,47 @@
-import { Geometry } from "./Geometry";
-import Grid, { arrayOf } from "./Grid";
+import Geometry from "./Geometry";
+import Grid from "./Grid";
 
-class Row implements Geometry<Row> {
-    public readonly type = "row";
-    public readonly values: number[];
+class Row extends Geometry<Row> {
+    readonly values: readonly number[];
 
-    public get length(): number {
+    get length(): number {
         return this.values.length;
     }
 
     constructor(values: number[]) {
+        super("row");
         this.values = values;
     }
 
-    public static of(length: number, f: (i: number) => number): Row {
-        const a: number[] = [];
+    static zero(length: number): Row {
+        let array = [];
         for (let i = 0; i < length; i++) {
-            a.push(f(i));
+            array.push(0);
         }
-        return new Row(a);
+        return new Row(array);
     }
 
-    public static zero(length: number): Row {
-        return Row.of(length, () => 0);
-    }
-
-    public valueAt(index: number): number {
+    valueAt(index: number): number {
         return this.values[index];
     }
 
-    public reverse(): Row {
-        return new Row(this.values.reverse());
+    clone(): Row {
+        return new Row(this.values.slice());
     }
 
-    public map(f: (value: number, i: number) => number): Row {
-        return new Row(this.values.map(f));
+    match(row: Row): boolean {
+        return false;
     }
 
-    public shiftRight(distance: number): Row {
-        if (distance > 0) {
-            const cells = this.values.slice(0, -distance);
-            return new Row(arrayOf(this.length - cells.length, () => 0).concat(cells));
-        }
-        if (distance < 0) {
-            return this.shiftLeft(-distance);
-        }
-        if (distance == 0) {
-            return this.clone();
-        }
-    }
-
-    public shiftLeft(distance: number): Row {
-        if (distance > 0) {
-            const cells = this.values.slice(distance);
-            return new Row(cells.concat(arrayOf(this.length - cells.length, () => 0)));
-        }
-        if (distance < 0) {
-            return this.shiftRight(-distance);
-        }
-        if (distance == 0) {
-            return this.clone();
-        }
-    }
-
-    public stretch(factor: number): Row {
-        const r: number[] = [];
-        for (let i = 0; i < this.length; i++) {
-            for (let ii = 0; ii < factor; ii++) {
-                r.push(this.valueAt(i));
-            }
-        }
-        return new Row(r);
-    }
-
-    public clone(): Row {
-        return new Row(this.values);
-    }
-
-    public sum(row: Row, offset: number = 0): Row {
-        const sums = this.values.map((value, i) => value + row.shiftRight(offset).valueAt(i));
-        return new Row(sums);
-    }
-
-    public toString(): string {
+    toString(): string {
         return this.values.map((value) => `[${value.toString().padEnd(3, " ")}]`).join("");
     }
 
-    public toArray(): number[] {
-        return this.values.slice(0);
+    toArray(): number[] {
+        return this.values.slice();
     }
 
-    public toGrid(): Grid {
+    toGrid(): Grid {
         return new Grid([this]);
     }
 }

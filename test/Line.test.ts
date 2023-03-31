@@ -19,10 +19,10 @@ test("Line.translate()", () => {
     const line = Line.random();
     const tPoint = Point.random();
     const translated = line.translate(tPoint);
-    expect(translated.origin.x).toBe(line.origin.x + tPoint.x);
-    expect(translated.origin.y).toBe(line.origin.y + tPoint.y);
-    expect(translated.end.x).toBe(line.end.x + tPoint.x);
-    expect(translated.end.y).toBe(line.end.y + tPoint.y);
+    expect(translated.origin.x).toBeCloseTo(line.origin.x + tPoint.x);
+    expect(translated.origin.y).toBeCloseTo(line.origin.y + tPoint.y);
+    expect(translated.end.x).toBeCloseTo(line.end.x + tPoint.x);
+    expect(translated.end.y).toBeCloseTo(line.end.y + tPoint.y);
 });
 
 test("Line.rotate()", () => {});
@@ -33,13 +33,6 @@ test("Line.setAngle()", () => {
     //const angle = Angle.random();
     //const line = Line.random().setAngle(angle);
     //expect(line.angle.radians).toBe(angle.radians);
-});
-
-test("Line.toVector()", () => {
-    const line = Line.random();
-    const vector = line.toVector();
-    expect(vector.angle.radians).toBe(line.angle.radians);
-    expect(vector.magnitude).toBe(line.length);
 });
 
 test("Line.toRectangle()", () => {

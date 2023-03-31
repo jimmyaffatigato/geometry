@@ -1,7 +1,4 @@
-export { Geometry as Geometry } from "./Geometry";
-export { Position } from "./Geometry";
-export { Size } from "./Geometry";
-export { Bounds } from "./Geometry";
+export { default as Geometry } from "./Geometry";
 export { default as Angle } from "./Angle";
 export { default as Circle } from "./Circle";
 export { default as Grid } from "./Grid";
@@ -10,5 +7,4 @@ export { default as Path } from "./Path";
 export { default as Point } from "./Point";
 export { default as Rectangle } from "./Rectangle";
 export { default as Row } from "./Row";
-export { default as Scalar } from "./Scalar";
 export { default as Vector } from "./Vector";
