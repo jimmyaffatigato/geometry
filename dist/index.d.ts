@@ -9,5 +9,4 @@ export { default as Rectangle } from "./lib/Rectangle";
 export { default as Row } from "./lib/Row";
 export { default as Triangle } from "./lib/Triangle";
 export { default as Vector } from "./lib/Vector";
-
 export * as util from "./lib/util";

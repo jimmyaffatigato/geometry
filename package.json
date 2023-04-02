@@ -4,17 +4,15 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "esbuild ./src/index.ts --bundle --platform=node --outfile=./dist/index.js --minify=true",
+    "build": "tsc -p ./src/tsconfig.json",
     "watch": "npm run build -- --watch",
-    "test": "jest --config=test/all-tests.config.js",
-    "qt": "jest --config=test/quick-test.config.js",
-    "coverage": "jest --config=test/coverage.config.js"
+    "test": "set TS_JEST_DISABLE_VER_CHECKER=true && jest --config=./src/test/all-tests.config.js",
+    "coverage": "set TS_JEST_DISABLE_VER_CHECKER=true && jest --config=./src/test/coverage.config.js"
   },
   "author": "Jimmy Affatigato",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.0",
-    "esbuild": "^0.17.14",
     "jest": "^29.5.0",
     "ts-jest": "^29.0.5"
   }
