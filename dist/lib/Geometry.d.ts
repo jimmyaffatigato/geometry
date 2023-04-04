@@ -1,4 +1,3 @@
-export declare const PRECISION = 4;
 declare abstract class Geometry<Shape, Props> {
     readonly type: string;
     constructor(type: string);

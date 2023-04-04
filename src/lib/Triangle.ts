@@ -18,16 +18,33 @@ class Triangle extends Geometry<Triangle, TriangleProps> {
     readonly c: Point;
 
     get angleA(): Angle {
-        return new Angle(this.ab.angle.difference(this.ac.angle));
+        const ab = this.ab.angle;
+        const ac = this.ac.angle;
+        const max = ab.radians > ac.radians ? ab : ac;
+        const min = max === ab ? ac : ab;
+        let angle = new Angle(max.radians - min.radians).absolute();
+        if (angle.radians > Math.PI) angle = new Angle(Math.PI * 2 - angle.radians);
+        return angle;
     }
 
     get angleB(): Angle {
-        return new Angle(this.ab.reverse().angle.absolute().difference(this.bc.angle));
+        const bc = this.bc.angle;
+        const ba = this.ab.reverse().angle;
+        const max = bc.radians > ba.radians ? bc : ba;
+        const min = max === bc ? ba : bc;
+        let angle = new Angle(max.radians - min.radians).absolute();
+        if (angle.radians > Math.PI) angle = new Angle(Math.PI * 2 - angle.radians);
+        return angle;
     }
 
     get angleC(): Angle {
-        //return new Angle(this.bc.reverse().angle.difference(this.ac.reverse().angle.absolute()));
-        return this.bc.reverse().angle;
+        const ca = this.ac.reverse().angle;
+        const cb = this.bc.reverse().angle;
+        const max = cb.radians > ca.radians ? cb : ca;
+        const min = max === cb ? ca : cb;
+        let angle = new Angle(max.radians - min.radians).absolute();
+        if (angle.radians > Math.PI) angle = new Angle(Math.PI * 2 - angle.radians);
+        return angle;
     }
 
     get ab(): Line {
@@ -40,6 +57,10 @@ class Triangle extends Geometry<Triangle, TriangleProps> {
 
     get bc(): Line {
         return new Line(this.b, this.c);
+    }
+
+    get center(): Point {
+        return new Point((this.a.x + this.b.x + this.c.x) / 3, (this.a.y + this.b.y + this.c.y) / 3);
     }
 
     clone(): Triangle {
@@ -75,8 +96,8 @@ class Triangle extends Geometry<Triangle, TriangleProps> {
         }
     }
 
-    static random(): Triangle {
-        return new Triangle(Point.random(), Point.random(), Point.random());
+    static random(max: Point = Point.one, min: Point = Point.zero): Triangle {
+        return new Triangle(Point.random(max, min), Point.random(max, min), Point.random(max, min));
     }
 
     static isProps(obj: any): obj is TriangleProps {

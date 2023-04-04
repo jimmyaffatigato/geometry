@@ -15,14 +15,34 @@ class Triangle extends Geometry_1.default {
     b;
     c;
     get angleA() {
-        return new Angle_1.default(this.ab.angle.difference(this.ac.angle));
+        const ab = this.ab.angle;
+        const ac = this.ac.angle;
+        const max = ab.radians > ac.radians ? ab : ac;
+        const min = max === ab ? ac : ab;
+        let angle = new Angle_1.default(max.radians - min.radians).absolute();
+        if (angle.radians > Math.PI)
+            angle = new Angle_1.default(Math.PI * 2 - angle.radians);
+        return angle;
     }
     get angleB() {
-        return new Angle_1.default(this.ab.reverse().angle.absolute().difference(this.bc.angle));
+        const bc = this.bc.angle;
+        const ba = this.ab.reverse().angle;
+        const max = bc.radians > ba.radians ? bc : ba;
+        const min = max === bc ? ba : bc;
+        let angle = new Angle_1.default(max.radians - min.radians).absolute();
+        if (angle.radians > Math.PI)
+            angle = new Angle_1.default(Math.PI * 2 - angle.radians);
+        return angle;
     }
     get angleC() {
-        //return new Angle(this.bc.reverse().angle.difference(this.ac.reverse().angle.absolute()));
-        return this.bc.reverse().angle;
+        const ca = this.ac.reverse().angle;
+        const cb = this.bc.reverse().angle;
+        const max = cb.radians > ca.radians ? cb : ca;
+        const min = max === cb ? ca : cb;
+        let angle = new Angle_1.default(max.radians - min.radians).absolute();
+        if (angle.radians > Math.PI)
+            angle = new Angle_1.default(Math.PI * 2 - angle.radians);
+        return angle;
     }
     get ab() {
         return new Line_1.default(this.a, this.b);
@@ -32,6 +52,9 @@ class Triangle extends Geometry_1.default {
     }
     get bc() {
         return new Line_1.default(this.b, this.c);
+    }
+    get center() {
+        return new Point_1.default((this.a.x + this.b.x + this.c.x) / 3, (this.a.y + this.b.y + this.c.y) / 3);
     }
     clone() {
         return new Triangle(this.a, this.b, this.c);
@@ -60,8 +83,8 @@ class Triangle extends Geometry_1.default {
             this.c = new Point_1.default(a.c);
         }
     }
-    static random() {
-        return new Triangle(Point_1.default.random(), Point_1.default.random(), Point_1.default.random());
+    static random(max = Point_1.default.one, min = Point_1.default.zero) {
+        return new Triangle(Point_1.default.random(max, min), Point_1.default.random(max, min), Point_1.default.random(max, min));
     }
     static isProps(obj) {
         return (typeof obj == "object" &&

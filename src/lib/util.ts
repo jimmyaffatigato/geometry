@@ -1,7 +1,5 @@
-import { PRECISION } from "./Geometry";
-
-export function random(max: number = 1, min: number = 0, precision: number = PRECISION): number {
-    return roundToPrecision(Math.random() * (max - min) + min, precision);
+export function random(max: number = 1, min: number = 0): number {
+    return Math.random() * (max - min) + min;
 }
 
 export function randomInt(max: number = 1, min: number = 0): number {
@@ -17,11 +15,6 @@ const MINRAD = -MAXRAD;
 
 export function randomRadians(): number {
     return random(MAXRAD, MINRAD);
-}
-
-export function roundToPrecision(number: number, precision: number = PRECISION): number {
-    const resolution = 10 ** precision;
-    return Math.round(number * resolution) / resolution;
 }
 
 export function clampToRadians(radians: number): number {

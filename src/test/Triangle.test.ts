@@ -2,7 +2,11 @@ import { test, expect } from "@jest/globals";
 import { Point, Triangle } from "..";
 
 test("", () => {
-    const triangle = new Triangle(new Point(1, 1), new Point(2, 2), new Point(3, 1));
+    const triangle = Triangle.random();
 
-    expect(triangle.angleA.degrees).toBeCloseTo(45);
+    console.log(triangle.angleA);
+    expect(triangle.angleA.radians < Math.PI).toBe(true);
+    expect(triangle.angleB.radians < Math.PI).toBe(true);
+    expect(triangle.angleC.radians < Math.PI).toBe(true);
+    expect(triangle.angleA.radians + triangle.angleB.radians + triangle.angleC.radians).toBeCloseTo(Math.PI);
 });

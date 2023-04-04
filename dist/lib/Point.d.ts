@@ -61,7 +61,8 @@ declare class Point extends Geometry<Point, PointProps> {
      * `[1, 1]`
      */
     static get one(): Point;
-    static random(max?: number, min?: number): Point;
+    static get infinity(): Point;
+    static random(max?: Point, min?: Point): Point;
     static isProps(obj: any): obj is PointProps;
 }
 export default Point;

@@ -1,6 +1,5 @@
 import { test, expect } from "@jest/globals";
 import { util } from "..";
-import { PRECISION } from "../lib/Geometry";
 
 const { randomInt, degreesToRadians, radiansToDegrees } = util;
 
@@ -38,9 +37,4 @@ test("Negative radians", () => {
         const radians = degreesToRadians(input);
         expect(radians).toBeLessThan(0);
     }
-});
-
-test("Round to Precision", () => {
-    const a = util.random();
-    util.roundToPrecision(a, PRECISION);
 });

@@ -1,9 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.radiansToDegrees = exports.degreesToRadians = exports.clampToRadians = exports.roundToPrecision = exports.randomRadians = exports.randomInt = exports.random = void 0;
-const Geometry_1 = require("./Geometry");
-function random(max = 1, min = 0, precision = Geometry_1.PRECISION) {
-    return roundToPrecision(Math.random() * (max - min) + min, precision);
+exports.radiansToDegrees = exports.degreesToRadians = exports.clampToRadians = exports.randomRadians = exports.randomInt = exports.random = void 0;
+function random(max = 1, min = 0) {
+    return Math.random() * (max - min) + min;
 }
 exports.random = random;
 function randomInt(max = 1, min = 0) {
@@ -19,11 +18,6 @@ function randomRadians() {
     return random(MAXRAD, MINRAD);
 }
 exports.randomRadians = randomRadians;
-function roundToPrecision(number, precision = Geometry_1.PRECISION) {
-    const resolution = 10 ** precision;
-    return Math.round(number * resolution) / resolution;
-}
-exports.roundToPrecision = roundToPrecision;
 function clampToRadians(radians) {
     if (radians > MAXRAD)
         return radians % MAXRAD;

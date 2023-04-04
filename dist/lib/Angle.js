@@ -64,7 +64,7 @@ class Angle extends Geometry_1.default {
      *
      */
     toString() {
-        return `${this.degrees}° (${this.radians})`;
+        return `${this.degrees.toFixed(1)}° (${this.radians.toFixed(1)})`;
     }
     constructor(a) {
         super("angle");
@@ -75,7 +75,7 @@ class Angle extends Geometry_1.default {
         else if (Angle.isProps(a)) {
             radians = a.radians;
         }
-        this.radians = (0, util_1.clampToRadians)((0, util_1.roundToPrecision)(radians));
+        this.radians = (0, util_1.clampToRadians)(radians);
     }
     /**
      * Creates an Angle from degrees

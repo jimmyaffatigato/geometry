@@ -1,6 +1,6 @@
 import Angle from "./Angle";
-import Geometry, { PRECISION } from "./Geometry";
-import { random, roundToPrecision } from "./util";
+import Geometry from "./Geometry";
+import { random } from "./util";
 import Vector from "./Vector";
 
 export interface PointProps {
@@ -67,7 +67,7 @@ class Point extends Geometry<Point, PointProps> {
     direction(x: number, y: number): Angle;
     direction(a: Point | number, b?: number): Angle {
         const target = new Point(a, b);
-        const difference = target.difference(this);
+        const difference = this.difference(target);
         let radians = Math.atan2(difference.y, difference.x);
         return new Angle(radians);
     }
@@ -163,8 +163,8 @@ class Point extends Geometry<Point, PointProps> {
             x = a.x;
             x = a.y;
         }
-        this.x = roundToPrecision(x, PRECISION);
-        this.y = roundToPrecision(y, PRECISION);
+        this.x = x;
+        this.y = y;
     }
 
     /**
@@ -181,9 +181,13 @@ class Point extends Geometry<Point, PointProps> {
         return new Point(1, 1);
     }
 
-    static random(max: number = 1, min: number = 0): Point {
-        const x = random(max, min);
-        const y = random(max, min);
+    static get infinity(): Point {
+        return new Point(Infinity, Infinity);
+    }
+
+    static random(max: Point = Point.one, min: Point = Point.zero): Point {
+        const x = random(max.x, min.x);
+        const y = random(max.y, min.y);
         return new Point(x, y);
     }
 

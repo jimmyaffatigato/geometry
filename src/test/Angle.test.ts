@@ -85,7 +85,7 @@ test("new Angle(AngleProps)", () => {
     const props2 = { foo: "bar" };
     //@ts-ignore
     const angle2 = new Angle(props2);
-    expect(angle2.radians).toBe(NaN);
+    expect(angle2.radians).toBe(undefined);
 });
 
 // Static

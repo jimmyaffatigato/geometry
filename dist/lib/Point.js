@@ -1,33 +1,10 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Angle_1 = __importDefault(require("./Angle"));
-const Geometry_1 = __importStar(require("./Geometry"));
+const Geometry_1 = __importDefault(require("./Geometry"));
 const util_1 = require("./util");
 const Vector_1 = __importDefault(require("./Vector"));
 /**
@@ -69,7 +46,7 @@ class Point extends Geometry_1.default {
     }
     direction(a, b) {
         const target = new Point(a, b);
-        const difference = target.difference(this);
+        const difference = this.difference(target);
         let radians = Math.atan2(difference.y, difference.x);
         return new Angle_1.default(radians);
     }
@@ -144,8 +121,8 @@ class Point extends Geometry_1.default {
             x = a.x;
             x = a.y;
         }
-        this.x = (0, util_1.roundToPrecision)(x, Geometry_1.PRECISION);
-        this.y = (0, util_1.roundToPrecision)(y, Geometry_1.PRECISION);
+        this.x = x;
+        this.y = y;
     }
     /**
      * `[0, 0]`
@@ -159,9 +136,12 @@ class Point extends Geometry_1.default {
     static get one() {
         return new Point(1, 1);
     }
-    static random(max = 1, min = 0) {
-        const x = (0, util_1.random)(max, min);
-        const y = (0, util_1.random)(max, min);
+    static get infinity() {
+        return new Point(Infinity, Infinity);
+    }
+    static random(max = Point.one, min = Point.zero) {
+        const x = (0, util_1.random)(max.x, min.x);
+        const y = (0, util_1.random)(max.y, min.y);
         return new Point(x, y);
     }
     static isProps(obj) {

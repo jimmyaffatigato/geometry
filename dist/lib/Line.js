@@ -16,6 +16,14 @@ class Line extends Geometry_1.default {
     get angle() {
         return this.origin.direction(this.end);
     }
+    get midpoint() {
+        return this.pointAt(0.5);
+    }
+    pointAt(pct) {
+        return this.toVector()
+            .setMagnitude(this.length * pct)
+            .toLine(this.end).end;
+    }
     reverse() {
         return new Line(this.end, this.origin);
     }

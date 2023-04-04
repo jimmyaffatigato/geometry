@@ -12,6 +12,8 @@ declare class Line extends Geometry<Line, LineProps> {
     readonly end: Point;
     get length(): number;
     get angle(): Angle;
+    get midpoint(): Point;
+    pointAt(pct: number): Point;
     reverse(): Line;
     translate(point: Point): Line;
     rotate(radians: number): Line;

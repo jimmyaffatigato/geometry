@@ -1,5 +1,3 @@
-export const PRECISION = 4;
-
 abstract class Geometry<Shape, Props> {
     readonly type: string;
 

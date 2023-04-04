@@ -1,12 +1,12 @@
 import Angle, { AngleProps } from "./Angle";
-import Geometry, { PRECISION } from "./Geometry";
+import Geometry from "./Geometry";
 import Line from "./Line";
 import Point from "./Point";
-import { random, roundToPrecision } from "./util";
+import { random } from "./util";
 
 export interface VectorProps {
     direction: AngleProps;
-    magnitude: number;
+    magnitude?: number;
 }
 
 /**
@@ -58,7 +58,7 @@ class Vector extends Geometry<Vector, VectorProps> {
 
     toPoint(): Point {
         return new Point(
-            Math.cos(this.direction.radians) * this.magnitude,
+            -Math.cos(this.direction.radians) * this.magnitude,
             -Math.sin(this.direction.radians) * this.magnitude
         );
     }
@@ -75,19 +75,29 @@ class Vector extends Geometry<Vector, VectorProps> {
         return `${this.direction.degrees.toFixed(digits)}° x ${this.magnitude.toFixed(digits)}`;
     }
 
-    constructor(a: Angle | VectorProps, b: number = 0) {
+    constructor(direction: Angle, magnitude?: number);
+    constructor(direction: AngleProps, magnitude?: number);
+    constructor(direction: number, magnitude?: number);
+    constructor(direction: VectorProps);
+    constructor(a: Angle | number | VectorProps | AngleProps, b: number = 0) {
         super("vector");
         let direction: Angle;
         let magnitude: number;
-        if (a instanceof Angle) {
+        if (a instanceof Angle && typeof b == "number") {
             direction = a;
+            magnitude = b;
+        } else if (Angle.isProps(a) && typeof b == "number") {
+            direction = new Angle(a);
+            magnitude = b;
+        } else if (typeof a == "number" && typeof b == "number") {
+            direction = new Angle(a);
             magnitude = b;
         } else if (Vector.isProps(a)) {
             direction = new Angle(a.direction);
             magnitude = a.magnitude;
         }
         this.direction = direction;
-        this.magnitude = roundToPrecision(magnitude, PRECISION);
+        this.magnitude = magnitude || 0;
     }
 
     static get zero(): Vector {
@@ -95,7 +105,7 @@ class Vector extends Geometry<Vector, VectorProps> {
     }
 
     static random(): Vector {
-        return new Vector(Angle.random(), random(Infinity, -Infinity, PRECISION));
+        return new Vector(Angle.random(), random(Infinity, -Infinity));
     }
 
     static isProps(obj: any): obj is VectorProps {

@@ -1,6 +1,6 @@
-import Geometry, { PRECISION } from "./Geometry";
+import Geometry from "./Geometry";
 import Vector from "./Vector";
-import { clampToRadians, degreesToRadians, radiansToDegrees, random, randomRadians, roundToPrecision } from "./util";
+import { clampToRadians, degreesToRadians, radiansToDegrees, randomRadians } from "./util";
 
 export interface AngleProps {
     radians: number;
@@ -76,7 +76,7 @@ class Angle extends Geometry<Angle, AngleProps> {
      *
      */
     toString(): string {
-        return `${this.degrees}° (${this.radians})`;
+        return `${this.degrees.toFixed(1)}° (${this.radians.toFixed(1)})`;
     }
 
     /**
@@ -92,7 +92,7 @@ class Angle extends Geometry<Angle, AngleProps> {
         } else if (Angle.isProps(a)) {
             radians = a.radians;
         }
-        this.radians = clampToRadians(roundToPrecision(radians));
+        this.radians = clampToRadians(radians);
     }
 
     /**
