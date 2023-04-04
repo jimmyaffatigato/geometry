@@ -1,6 +1,6 @@
 import Geometry from "./Geometry";
 import Vector from "./Vector";
-import { clampToRadians, degreesToRadians, radiansToDegrees, randomRadians } from "./util";
+import { clampToRadians, degreesToRadians, radiansToDegrees, randomRadians, roundOffZeroes } from "./util";
 
 export interface AngleProps {
     radians: number;

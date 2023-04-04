@@ -1,6 +1,6 @@
 import Angle from "./Angle";
 import Geometry from "./Geometry";
-import { random } from "./util";
+import { random, roundOffZeroes } from "./util";
 import Vector from "./Vector";
 
 export interface PointProps {
@@ -163,8 +163,8 @@ class Point extends Geometry<Point, PointProps> {
             x = a.x;
             x = a.y;
         }
-        this.x = x;
-        this.y = y;
+        this.x = roundOffZeroes(x);
+        this.y = roundOffZeroes(y);
     }
 
     /**

@@ -7,6 +7,7 @@ const Angle_1 = __importDefault(require("./Angle"));
 const Geometry_1 = __importDefault(require("./Geometry"));
 const Line_1 = __importDefault(require("./Line"));
 const Point_1 = __importDefault(require("./Point"));
+const util_1 = require("./util");
 /**
  * An instance of `Triangle` contains Points `a`, `b`, and `c` as well as various methods for working with triangles.
  */
@@ -56,6 +57,14 @@ class Triangle extends Geometry_1.default {
     get center() {
         return new Point_1.default((this.a.x + this.b.x + this.c.x) / 3, (this.a.y + this.b.y + this.c.y) / 3);
     }
+    get area() {
+        const { ab, ac, bc } = this;
+        return (0, util_1.roundOffZeroes)(0.25 *
+            Math.sqrt(ab.length + bc.length + ac.length) *
+            Math.sqrt(-ab.length + bc.length + ac.length) *
+            Math.sqrt(ab.length - bc.length + ac.length) *
+            Math.sqrt(ab.length + bc.length - ac.length));
+    }
     clone() {
         return new Triangle(this.a, this.b, this.c);
     }
@@ -76,6 +85,21 @@ class Triangle extends Geometry_1.default {
             this.a = a;
             this.b = b;
             this.c = c;
+        }
+        else if (Point_1.default.isProps(a) && Point_1.default.isProps(b) && Point_1.default.isProps(c)) {
+            this.a = new Point_1.default(a);
+            this.b = new Point_1.default(b);
+            this.c = new Point_1.default(c);
+        }
+        else if (Array.isArray(a) &&
+            a.length == 2 &&
+            Array.isArray(b) &&
+            a.length == 2 &&
+            Array.isArray(c) &&
+            a.length == 2) {
+            this.a = new Point_1.default(a);
+            this.b = new Point_1.default(b);
+            this.c = new Point_1.default(c);
         }
         else if (Triangle.isProps(a)) {
             this.a = new Point_1.default(a.a);

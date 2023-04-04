@@ -12,10 +12,11 @@ declare class Circle extends Geometry<Circle, CircleProps> {
     get area(): number;
     get circumference(): number;
     get bounds(): Rectangle;
-    get position(): Point;
+    get center(): Point;
     setPosition(position: Point): Circle;
     translate(point: Point): Circle;
     contains(point: Point): boolean;
+    overlaps(circle: Circle): boolean;
     clone(): Circle;
     match(circle: Circle): boolean;
     toObject(): CircleProps;

@@ -19,20 +19,23 @@ class Circle extends Geometry_1.default {
         return 2 * Math.PI * this.radius;
     }
     get bounds() {
-        return new Rectangle_1.default(this.position.x - this.radius, this.position.y - this.radius, this.diameter, this.diameter);
+        return new Rectangle_1.default(this.center.x - this.radius, this.center.y - this.radius, this.diameter, this.diameter);
     }
     // Position
-    get position() {
+    get center() {
         return this.origin;
     }
     setPosition(position) {
         return new Circle(position, this.radius);
     }
     translate(point) {
-        return this.setPosition(this.position.translate(point));
+        return this.setPosition(this.center.translate(point));
     }
     contains(point) {
         return point.distance(this.origin) <= this.radius;
+    }
+    overlaps(circle) {
+        return this.center.distance(circle.center) <= this.radius * 2;
     }
     clone() {
         return new Circle(this.origin, this.radius);
@@ -44,7 +47,7 @@ class Circle extends Geometry_1.default {
         return { origin: this.origin.toObject(), radius: this.radius };
     }
     toString(digits = 2) {
-        const { x, y } = this.position;
+        const { x, y } = this.center;
         return `[x: ${x.toFixed(digits)}, y: ${y.toFixed(digits)}, r: ${this.radius}]`;
     }
     constructor(a, b) {

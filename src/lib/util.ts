@@ -8,6 +8,13 @@ export function randomInt(max: number = 1, min: number = 0): number {
     return Math.ceil(Math.random() * (max - min)) + min;
 }
 
+export function roundOffZeroes(number: number, precision: number = 0.000001): number {
+    const floored = Math.floor(number);
+    if (number % floored < precision) return floored;
+    if (number % floored > floored - precision) return Math.ceil(number);
+    return number;
+}
+
 //
 
 const MAXRAD = Math.PI * 2;
@@ -26,9 +33,9 @@ export function clampToRadians(radians: number): number {
 // Angle
 
 export function degreesToRadians(degrees: number): number {
-    return (Math.PI / 180) * degrees;
+    return roundOffZeroes((Math.PI / 180) * degrees);
 }
 
 export function radiansToDegrees(radians: number): number {
-    return radians / (Math.PI / 180);
+    return roundOffZeroes(radians / (Math.PI / 180));
 }

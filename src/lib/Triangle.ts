@@ -2,6 +2,7 @@ import Angle from "./Angle";
 import Geometry from "./Geometry";
 import Line from "./Line";
 import Point, { PointProps } from "./Point";
+import { roundOffZeroes } from "./util";
 
 export interface TriangleProps {
     a: PointProps;
@@ -63,6 +64,17 @@ class Triangle extends Geometry<Triangle, TriangleProps> {
         return new Point((this.a.x + this.b.x + this.c.x) / 3, (this.a.y + this.b.y + this.c.y) / 3);
     }
 
+    get area(): number {
+        const { ab, ac, bc } = this;
+        return roundOffZeroes(
+            0.25 *
+                Math.sqrt(ab.length + bc.length + ac.length) *
+                Math.sqrt(-ab.length + bc.length + ac.length) *
+                Math.sqrt(ab.length - bc.length + ac.length) *
+                Math.sqrt(ab.length + bc.length - ac.length)
+        );
+    }
+
     clone(): Triangle {
         return new Triangle(this.a, this.b, this.c);
     }
@@ -82,13 +94,34 @@ class Triangle extends Geometry<Triangle, TriangleProps> {
     }
 
     constructor(a: Point, b: Point, c: Point);
+    constructor(a: PointProps, b: PointProps, c: PointProps);
+    constructor(a: [number, number], b: [number, number], c: [number, number]);
     constructor(props: TriangleProps);
-    constructor(a: Point | TriangleProps, b?: Point, c?: Point) {
+    constructor(
+        a: Point | PointProps | [number, number] | TriangleProps,
+        b?: Point | PointProps | [number, number],
+        c?: Point | PointProps | [number, number]
+    ) {
         super("triangle");
         if (a instanceof Point && b instanceof Point && c instanceof Point) {
             this.a = a;
             this.b = b;
             this.c = c;
+        } else if (Point.isProps(a) && Point.isProps(b) && Point.isProps(c)) {
+            this.a = new Point(a);
+            this.b = new Point(b);
+            this.c = new Point(c);
+        } else if (
+            Array.isArray(a) &&
+            a.length == 2 &&
+            Array.isArray(b) &&
+            a.length == 2 &&
+            Array.isArray(c) &&
+            a.length == 2
+        ) {
+            this.a = new Point(a);
+            this.b = new Point(b);
+            this.c = new Point(c);
         } else if (Triangle.isProps(a)) {
             this.a = new Point(a.a);
             this.b = new Point(a.b);

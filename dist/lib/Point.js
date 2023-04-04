@@ -121,8 +121,8 @@ class Point extends Geometry_1.default {
             x = a.x;
             x = a.y;
         }
-        this.x = x;
-        this.y = y;
+        this.x = (0, util_1.roundOffZeroes)(x);
+        this.y = (0, util_1.roundOffZeroes)(y);
     }
     /**
      * `[0, 0]`

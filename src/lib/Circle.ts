@@ -24,17 +24,12 @@ class Circle extends Geometry<Circle, CircleProps> {
     }
 
     get bounds(): Rectangle {
-        return new Rectangle(
-            this.position.x - this.radius,
-            this.position.y - this.radius,
-            this.diameter,
-            this.diameter
-        );
+        return new Rectangle(this.center.x - this.radius, this.center.y - this.radius, this.diameter, this.diameter);
     }
 
     // Position
 
-    get position(): Point {
+    get center(): Point {
         return this.origin;
     }
 
@@ -43,11 +38,15 @@ class Circle extends Geometry<Circle, CircleProps> {
     }
 
     translate(point: Point): Circle {
-        return this.setPosition(this.position.translate(point));
+        return this.setPosition(this.center.translate(point));
     }
 
     contains(point: Point): boolean {
         return point.distance(this.origin) <= this.radius;
+    }
+
+    overlaps(circle: Circle): boolean {
+        return this.center.distance(circle.center) <= this.radius * 2;
     }
 
     clone(): Circle {
@@ -63,7 +62,7 @@ class Circle extends Geometry<Circle, CircleProps> {
     }
 
     toString(digits: number = 2): string {
-        const { x, y } = this.position;
+        const { x, y } = this.center;
         return `[x: ${x.toFixed(digits)}, y: ${y.toFixed(digits)}, r: ${this.radius}]`;
     }
 

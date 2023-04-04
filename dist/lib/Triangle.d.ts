@@ -21,11 +21,14 @@ declare class Triangle extends Geometry<Triangle, TriangleProps> {
     get ac(): Line;
     get bc(): Line;
     get center(): Point;
+    get area(): number;
     clone(): Triangle;
     match(triangle: Triangle): boolean;
     toObject(): TriangleProps;
     toString(): string;
     constructor(a: Point, b: Point, c: Point);
+    constructor(a: PointProps, b: PointProps, c: PointProps);
+    constructor(a: [number, number], b: [number, number], c: [number, number]);
     constructor(props: TriangleProps);
     static random(max?: Point, min?: Point): Triangle;
     static isProps(obj: any): obj is TriangleProps;
