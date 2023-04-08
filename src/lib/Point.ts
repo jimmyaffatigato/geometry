@@ -35,7 +35,8 @@ class Point extends Geometry<Point, PointProps> {
             point = new Point(a, b);
             distance = c;
         }
-        return new Vector(point.direction(this), point.distance(this) - distance).toLine(point).end;
+        const p = new Vector(this.direction(point), distance).toLine(this).end;
+        return p;
     }
 
     distance(target: Point): number;

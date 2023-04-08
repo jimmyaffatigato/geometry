@@ -9,7 +9,6 @@ declare class Path extends Geometry<Path, PathProps> {
     get segments(): readonly Line[];
     get length(): number;
     addPoint(point: Point): Path;
-    removePoint(): any;
     toArray(): [number, number][];
     clone(): Path;
     match(path: Path): boolean;

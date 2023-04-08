@@ -104,20 +104,38 @@ class Rectangle extends Geometry_1.default {
     }
     constructor(a, b, c, d) {
         super("rectangle");
+        let x;
+        let y;
+        let width;
+        let height;
         if (typeof a == "number" && typeof b == "number" && typeof c == "number" && typeof d == "number") {
             // number, number, number, number
-            this.position = new Point_1.default(a, b);
-            this.size = new Point_1.default(c, d);
+            x = a;
+            y = b;
+            width = c;
+            height = d;
         }
         else if (a instanceof Point_1.default && b instanceof Point_1.default) {
             // Point, Point
-            this.position = a;
-            this.size = b;
+            x = a.x;
+            y = a.y;
+            width = b.x;
+            height = b.y;
+        }
+        else if (Array.isArray(a) && a.length == 4) {
+            x = a[0];
+            y = a[1];
+            width = a[2];
+            height = a[3];
         }
         else if (Rectangle.isProps(a)) {
-            this.position = new Point_1.default(a.position);
-            this.size = new Point_1.default(a.size);
+            x = a.position.x;
+            y = a.position.y;
+            width = a.size.x;
+            height = a.size.y;
         }
+        this.position = new Point_1.default(x, y);
+        this.size = new Point_1.default(width, height);
     }
     static random() {
         return new Rectangle(Point_1.default.random(), Point_1.default.random());

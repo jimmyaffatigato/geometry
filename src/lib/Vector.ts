@@ -58,7 +58,7 @@ class Vector extends Geometry<Vector, VectorProps> {
 
     toPoint(): Point {
         return new Point(
-            -Math.cos(this.direction.radians) * this.magnitude,
+            Math.cos(this.direction.radians) * this.magnitude,
             -Math.sin(this.direction.radians) * this.magnitude
         );
     }

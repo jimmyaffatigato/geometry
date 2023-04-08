@@ -134,21 +134,44 @@ class Rectangle extends Geometry<Rectangle, RectangleProps> {
 
     constructor(x: number, y: number, width: number, height: number);
     constructor(position: Point, size: Point);
+    constructor(xywh: [number, number, number, number]);
     constructor(props: RectangleProps);
-    constructor(a: Point | number | RectangleProps, b?: Point | number, c?: number, d?: number) {
+    constructor(
+        a: Point | number | RectangleProps | [number, number, number, number],
+        b?: Point | number,
+        c?: number,
+        d?: number
+    ) {
         super("rectangle");
+        let x: number;
+        let y: number;
+        let width: number;
+        let height: number;
         if (typeof a == "number" && typeof b == "number" && typeof c == "number" && typeof d == "number") {
             // number, number, number, number
-            this.position = new Point(a, b);
-            this.size = new Point(c, d);
+            x = a;
+            y = b;
+            width = c;
+            height = d;
         } else if (a instanceof Point && b instanceof Point) {
             // Point, Point
-            this.position = a;
-            this.size = b;
+            x = a.x;
+            y = a.y;
+            width = b.x;
+            height = b.y;
+        } else if (Array.isArray(a) && a.length == 4) {
+            x = a[0];
+            y = a[1];
+            width = a[2];
+            height = a[3];
         } else if (Rectangle.isProps(a)) {
-            this.position = new Point(a.position);
-            this.size = new Point(a.size);
+            x = a.position.x;
+            y = a.position.y;
+            width = a.size.x;
+            height = a.size.y;
         }
+        this.position = new Point(x, y);
+        this.size = new Point(width, height);
     }
 
     static random(): Rectangle {

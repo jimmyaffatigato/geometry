@@ -47,6 +47,7 @@ declare class Rectangle extends Geometry<Rectangle, RectangleProps> {
     toString(digits?: number): string;
     constructor(x: number, y: number, width: number, height: number);
     constructor(position: Point, size: Point);
+    constructor(xywh: [number, number, number, number]);
     constructor(props: RectangleProps);
     static random(): Rectangle;
     static isProps(obj: any): obj is RectangleProps;
