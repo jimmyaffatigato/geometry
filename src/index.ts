@@ -1,5 +1,6 @@
 export { default as Geometry } from "./lib/Geometry";
 export { default as Angle } from "./lib/Angle";
+export { default as Arc } from "./lib/Arc";
 export { default as Circle } from "./lib/Circle";
 export { default as Grid } from "./lib/Grid";
 export { default as Line } from "./lib/Line";

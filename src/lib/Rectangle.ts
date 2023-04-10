@@ -1,4 +1,5 @@
 import Geometry from "./Geometry";
+import Line from "./Line";
 import Point, { PointProps } from "./Point";
 
 export interface RectangleProps {
@@ -35,6 +36,19 @@ class Rectangle extends Geometry<Rectangle, RectangleProps> {
         return this.size.y;
     }
 
+    get [0](): number {
+        return this.x;
+    }
+    get [1](): number {
+        return this.y;
+    }
+    get [2](): number {
+        return this.width;
+    }
+    get [3](): number {
+        return this.height;
+    }
+
     get area(): number {
         return this.width * this.height;
     }
@@ -57,6 +71,32 @@ class Rectangle extends Geometry<Rectangle, RectangleProps> {
 
     get bottom(): number {
         return this.y + this.height;
+    }
+
+    get topLeft(): Point {
+        return this.position;
+    }
+    get topRight(): Point {
+        return new Point(this.right, this.top);
+    }
+    get bottomLeft(): Point {
+        return new Point(this.left, this.bottom);
+    }
+    get bottomRight(): Point {
+        return this.position.translate(this.size);
+    }
+
+    get topSide(): Line {
+        return new Line(this.topLeft, this.topRight);
+    }
+    get leftSide(): Line {
+        return new Line(this.topLeft, this.bottomLeft);
+    }
+    get bottomSide(): Line {
+        return new Line(this.bottomLeft, this.bottomRight);
+    }
+    get rightSide(): Line {
+        return new Line(this.topRight, this.bottomRight);
     }
 
     setPosition(position: Point): Rectangle {
@@ -113,11 +153,11 @@ class Rectangle extends Geometry<Rectangle, RectangleProps> {
     }
 
     clone(): Rectangle {
-        return new Rectangle(this.position, this.size);
+        return new Rectangle(this);
     }
 
-    match(rectangle: Rectangle): boolean {
-        return this.position.match(rectangle.position) && this.size.match(rectangle.size);
+    match(rectangle: Rectangle, tolerance: number = 0): boolean {
+        return this.position.match(rectangle.position, tolerance) && this.size.match(rectangle.size, tolerance);
     }
 
     toObject(): RectangleProps {

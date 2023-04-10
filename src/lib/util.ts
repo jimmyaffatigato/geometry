@@ -15,6 +15,10 @@ export function roundOffZeroes(number: number, precision: number = 0.000001): nu
     return number;
 }
 
+export function matchNumber(number1: number, number2: number, tolerance: number = 0): boolean {
+    return Math.abs(number1 - number2) <= tolerance;
+}
+
 //
 
 const MAXRAD = Math.PI * 2;

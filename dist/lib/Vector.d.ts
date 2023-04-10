@@ -29,7 +29,7 @@ declare class Vector extends Geometry<Vector, VectorProps> {
      */
     rotateByDegrees(degrees: number): Vector;
     clone(): Vector;
-    match(vector: Vector): boolean;
+    match(vector: Vector, tolerance?: number): boolean;
     toPoint(): Point;
     toLine(origin?: Point): Line;
     toObject(): VectorProps;
@@ -38,6 +38,7 @@ declare class Vector extends Geometry<Vector, VectorProps> {
     constructor(direction: AngleProps, magnitude?: number);
     constructor(direction: number, magnitude?: number);
     constructor(direction: VectorProps);
+    constructor(a: Angle | number | VectorProps | AngleProps, b?: number);
     static get zero(): Vector;
     static random(): Vector;
     static isProps(obj: any): obj is VectorProps;

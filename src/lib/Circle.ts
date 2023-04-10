@@ -1,6 +1,10 @@
+import Angle from "./Angle";
+import Arc from "./Arc";
 import Geometry from "./Geometry";
 import Point, { PointProps } from "./Point";
 import Rectangle from "./Rectangle";
+import Vector from "./Vector";
+import { matchNumber } from "./util";
 
 export interface CircleProps {
     origin: PointProps;
@@ -33,6 +37,10 @@ class Circle extends Geometry<Circle, CircleProps> {
         return this.origin;
     }
 
+    pointAt(a: number | Angle): Point {
+        return new Vector(a, this.radius).toLine(this.center).end;
+    }
+
     setPosition(position: Point): Circle {
         return new Circle(position, this.radius);
     }
@@ -50,11 +58,15 @@ class Circle extends Geometry<Circle, CircleProps> {
     }
 
     clone(): Circle {
-        return new Circle(this.origin, this.radius);
+        return new Circle(this);
     }
 
-    match(circle: Circle): boolean {
-        return circle.origin.match(this.origin) && circle.radius == this.radius;
+    match(circle: Circle, tolerance: number = 0): boolean {
+        return circle.origin.match(this.origin, tolerance) && matchNumber(this.radius, circle.radius, tolerance);
+    }
+
+    toArc(): Arc {
+        return new Arc(this.origin, new Angle(0), new Angle(Math.PI * 2), this.radius);
     }
 
     toObject(): CircleProps {

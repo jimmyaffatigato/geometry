@@ -1,5 +1,9 @@
 import Angle, { AngleProps } from "./Angle";
 import Geometry from "./Geometry";
+import Line from "./Line";
+import Point from "./Point";
+import Vector from "./Vector";
+import { matchNumber } from "./util";
 
 export interface ArcProps {
     angle: AngleProps;
@@ -7,34 +11,48 @@ export interface ArcProps {
 }
 
 class Arc extends Geometry<Arc, ArcProps> {
-    angle: Angle;
+    origin: Point;
+    startAngle: Angle;
+    endAngle: Angle;
     radius: number;
+
+    get angle(): Angle {
+        return this.endAngle.difference(this.angle);
+    }
 
     get arcLength(): number {
         return this.angle.radians * this.radius;
     }
 
-    get chordLength(): number {
-        return NaN;
+    get chord(): Line {
+        return new Line(this.startPoint, this.endPoint);
     }
 
     get sectorArea(): number {
-        return 0;
+        return Math.PI * this.radius ** 2 * (this.angle.radians / (Math.PI * 2));
     }
 
-    constructor(angle: Angle, radius: number) {
-        super("arc");
-        this.angle = angle;
-        this.radius = radius;
+    get startPoint(): Point {
+        return new Vector(this.startAngle, this.radius).toLine(this.origin).end;
+    }
+
+    get endPoint(): Point {
+        return new Vector(this.endAngle, this.radius).toLine(this.origin).end;
     }
 
     clone(): Arc {
-        return new Arc(new Angle(0), 0);
+        return new Arc(this.origin, this.startAngle, this.endAngle, this.radius);
     }
 
-    match(): boolean {
-        return false;
+    match(arc: Arc, tolerance: number = 0): boolean {
+        return (
+            this.origin.match(arc.origin, tolerance) &&
+            this.startAngle.match(arc.startAngle, tolerance) &&
+            this.endAngle.match(arc.endAngle, tolerance) &&
+            matchNumber(this.radius, arc.radius, tolerance)
+        );
     }
+
 
     toObject(): ArcProps {
         return { angle: this.angle.toObject(), radius: this.radius };
@@ -42,6 +60,18 @@ class Arc extends Geometry<Arc, ArcProps> {
 
     toString(): string {
         return "";
+    }
+
+    constructor(origin: Point, startAngle: Angle, endAngle: Angle, radius: number) {
+        super("arc");
+        this.origin = origin;
+        this.startAngle = startAngle;
+        this.endAngle = endAngle;
+        this.radius = radius;
+    }
+
+    static fromPoint(point: Point, startAngle: Angle, endAngle: Angle, radius: number): Arc {
+        return null;
     }
 }
 

@@ -26,11 +26,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.util = exports.Vector = exports.Triangle = exports.Row = exports.Rectangle = exports.Point = exports.Path = exports.Line = exports.Grid = exports.Circle = exports.Angle = exports.Geometry = void 0;
+exports.util = exports.Vector = exports.Triangle = exports.Row = exports.Rectangle = exports.Point = exports.Path = exports.Line = exports.Grid = exports.Circle = exports.Arc = exports.Angle = exports.Geometry = void 0;
 var Geometry_1 = require("./lib/Geometry");
 Object.defineProperty(exports, "Geometry", { enumerable: true, get: function () { return __importDefault(Geometry_1).default; } });
 var Angle_1 = require("./lib/Angle");
 Object.defineProperty(exports, "Angle", { enumerable: true, get: function () { return __importDefault(Angle_1).default; } });
+var Arc_1 = require("./lib/Arc");
+Object.defineProperty(exports, "Arc", { enumerable: true, get: function () { return __importDefault(Arc_1).default; } });
 var Circle_1 = require("./lib/Circle");
 Object.defineProperty(exports, "Circle", { enumerable: true, get: function () { return __importDefault(Circle_1).default; } });
 var Grid_1 = require("./lib/Grid");

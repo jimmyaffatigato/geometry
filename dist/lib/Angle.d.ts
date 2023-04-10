@@ -7,8 +7,10 @@ export interface AngleProps {
  * The Angle class contains a radians property and various helper functions for working with angles.
  */
 declare class Angle extends Geometry<Angle, AngleProps> {
-    radians: number;
+    readonly radians: number;
     get degrees(): number;
+    get complement(): Angle;
+    get supplement(): Angle;
     /**
      * Rotate by radians.
      * @param {number} radians
@@ -25,7 +27,8 @@ declare class Angle extends Geometry<Angle, AngleProps> {
     difference(angle: Angle): Angle;
     multiply(factor: number): Angle;
     absolute(): Angle;
-    match(angle: Angle): boolean;
+    negate(): Angle;
+    match(angle: Angle, tolerance?: number): boolean;
     /**
      * Returns a new Angle instance with the same properties
      */
@@ -44,6 +47,7 @@ declare class Angle extends Geometry<Angle, AngleProps> {
      */
     constructor(radians: number);
     constructor(props: AngleProps);
+    static get zero(): Angle;
     /**
      * Creates an Angle from degrees
      */

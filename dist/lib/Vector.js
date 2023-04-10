@@ -33,13 +33,13 @@ class Vector extends Geometry_1.default {
         return this.rotate((Math.PI / 180) * degrees);
     }
     clone() {
-        return new Vector(this.direction, this.magnitude);
+        return new Vector(this);
     }
-    match(vector) {
-        return vector.direction == this.direction && vector.magnitude == this.magnitude;
+    match(vector, tolerance = 0) {
+        return this.direction.match(vector.direction, tolerance) && (0, util_1.matchNumber)(this.magnitude, vector.magnitude);
     }
     toPoint() {
-        return new Point_1.default(-Math.cos(this.direction.radians) * this.magnitude, -Math.sin(this.direction.radians) * this.magnitude);
+        return new Point_1.default(Math.cos(this.direction.radians) * this.magnitude, Math.sin(this.direction.radians) * this.magnitude);
     }
     toLine(origin = Point_1.default.zero) {
         return new Line_1.default(Point_1.default.zero, this.toPoint()).translate(origin);

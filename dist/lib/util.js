@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.radiansToDegrees = exports.degreesToRadians = exports.clampToRadians = exports.randomRadians = exports.roundOffZeroes = exports.randomInt = exports.random = void 0;
+exports.radiansToDegrees = exports.degreesToRadians = exports.clampToRadians = exports.randomRadians = exports.matchNumber = exports.roundOffZeroes = exports.randomInt = exports.random = void 0;
 function random(max = 1, min = 0) {
     return Math.random() * (max - min) + min;
 }
@@ -20,6 +20,10 @@ function roundOffZeroes(number, precision = 0.000001) {
     return number;
 }
 exports.roundOffZeroes = roundOffZeroes;
+function matchNumber(number1, number2, tolerance = 0) {
+    return Math.abs(number1 - number2) <= tolerance;
+}
+exports.matchNumber = matchNumber;
 //
 const MAXRAD = Math.PI * 2;
 const MINRAD = -MAXRAD;

@@ -1,7 +1,9 @@
 import Angle from "./Angle";
+import Circle from "./Circle";
 import Geometry from "./Geometry";
 import Point, { PointProps } from "./Point";
 import Rectangle from "./Rectangle";
+import Triangle from "./Triangle";
 import Vector from "./Vector";
 
 export interface LineProps {
@@ -28,15 +30,21 @@ class Line extends Geometry<Line, LineProps> {
     pointAt(pct: number): Point {
         return this.toVector()
             .setMagnitude(this.length * pct)
-            .toLine(this.end).end;
+            .toLine(this.origin).end;
     }
 
     reverse(): Line {
         return new Line(this.end, this.origin);
     }
 
-    translate(point: Point): Line {
-        return new Line(this.origin.translate(point), this.end.translate(point));
+    translate(point: Point): Line;
+    translate(x: number, y: number): Line;
+    translate(a: Point | number, b?: number): Line {
+        if (a instanceof Point) {
+            return new Line(this.origin.translate(a), this.end.translate(a));
+        } else if (typeof a == "number" && typeof b == "number") {
+            return new Line(this.origin.translate(a, b), this.end.translate(a, b));
+        }
     }
 
     rotate(radians: number): Line {
@@ -59,12 +67,20 @@ class Line extends Geometry<Line, LineProps> {
         return new Rectangle(this.origin, this.end.difference(this.origin));
     }
 
-    clone(): Line {
-        return new Line(this.origin, this.end);
+    toCircle(): Circle {
+        return new Circle(this.origin, this.length);
     }
 
-    match(line: Line): boolean {
-        return line.origin.match(this.origin) && line.end.match(this.end);
+    toTriangle(c: Point): Triangle {
+        return new Triangle(this.origin, this.end, c);
+    }
+
+    clone(): Line {
+        return new Line(this);
+    }
+
+    match(line: Line, tolerance: number = 0): boolean {
+        return line.origin.match(this.origin, tolerance) && line.end.match(this.end, tolerance);
     }
 
     floor(): Line {

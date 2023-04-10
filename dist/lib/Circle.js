@@ -3,9 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const Angle_1 = __importDefault(require("./Angle"));
+const Arc_1 = __importDefault(require("./Arc"));
 const Geometry_1 = __importDefault(require("./Geometry"));
 const Point_1 = __importDefault(require("./Point"));
 const Rectangle_1 = __importDefault(require("./Rectangle"));
+const Vector_1 = __importDefault(require("./Vector"));
+const util_1 = require("./util");
 class Circle extends Geometry_1.default {
     origin;
     radius;
@@ -25,6 +29,9 @@ class Circle extends Geometry_1.default {
     get center() {
         return this.origin;
     }
+    pointAt(a) {
+        return new Vector_1.default(a, this.radius).toLine(this.center).end;
+    }
     setPosition(position) {
         return new Circle(position, this.radius);
     }
@@ -38,10 +45,13 @@ class Circle extends Geometry_1.default {
         return this.center.distance(circle.center) <= this.radius * 2;
     }
     clone() {
-        return new Circle(this.origin, this.radius);
+        return new Circle(this);
     }
-    match(circle) {
-        return circle.origin.match(this.origin) && circle.radius == this.radius;
+    match(circle, tolerance = 0) {
+        return circle.origin.match(this.origin, tolerance) && (0, util_1.matchNumber)(this.radius, circle.radius, tolerance);
+    }
+    toArc() {
+        return new Arc_1.default(this.origin, new Angle_1.default(0), new Angle_1.default(Math.PI * 2), this.radius);
     }
     toObject() {
         return { origin: this.origin.toObject(), radius: this.radius };

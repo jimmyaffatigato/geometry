@@ -4,7 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Angle_1 = __importDefault(require("./Angle"));
+const Circle_1 = __importDefault(require("./Circle"));
 const Geometry_1 = __importDefault(require("./Geometry"));
+const Line_1 = __importDefault(require("./Line"));
+const Rectangle_1 = __importDefault(require("./Rectangle"));
 const util_1 = require("./util");
 const Vector_1 = __importDefault(require("./Vector"));
 /**
@@ -14,6 +17,12 @@ const Vector_1 = __importDefault(require("./Vector"));
 class Point extends Geometry_1.default {
     x;
     y;
+    get [0]() {
+        return this.x;
+    }
+    get [1]() {
+        return this.y;
+    }
     translate(a, b) {
         const distance = new Point(a, b);
         return new Point(this.x + distance.x, this.y + distance.y);
@@ -29,7 +38,8 @@ class Point extends Geometry_1.default {
             point = new Point(a, b);
             distance = c;
         }
-        return new Vector_1.default(point.direction(this), point.distance(this) - distance).toLine(point).end;
+        const p = new Vector_1.default(this.direction(point), distance).toLine(this).end;
+        return p;
     }
     distance(a, b) {
         const target = new Point(a, b);
@@ -71,20 +81,29 @@ class Point extends Geometry_1.default {
     rotate(a, origin = Point.zero) {
         return this.translate(origin.reflect()).toVector().rotate(a).toPoint().translate(origin);
     }
-    match(point) {
-        return this.x == point.x && this.y == point.y;
+    match(point, tolerance = 0) {
+        return (0, util_1.matchNumber)(this.x, point.x, tolerance) && (0, util_1.matchNumber)(this.y, point.y, tolerance);
     }
     /**
      * Returns a new Point instance with the same properties
      */
     clone() {
-        return new Point(this.x, this.y);
+        return new Point(this);
     }
     toArray() {
         return [this.x, this.y];
     }
     toVector() {
         return new Vector_1.default(Point.zero.direction(this), Point.zero.distance(this));
+    }
+    toLine(end) {
+        return new Line_1.default(this, end);
+    }
+    toRectangle(size) {
+        return new Rectangle_1.default(this, size);
+    }
+    toCircle(radius) {
+        return new Circle_1.default(this, radius);
     }
     toObject() {
         return { x: this.x, y: this.y };

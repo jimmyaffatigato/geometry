@@ -14,6 +14,12 @@ class Angle extends Geometry_1.default {
     get degrees() {
         return (0, util_1.radiansToDegrees)(this.radians);
     }
+    get complement() {
+        return new Angle(Math.PI / 2).difference(this);
+    }
+    get supplement() {
+        return new Angle(Math.PI).difference(this);
+    }
     /**
      * Rotate by radians.
      * @param {number} radians
@@ -42,14 +48,17 @@ class Angle extends Geometry_1.default {
     absolute() {
         return new Angle(Math.abs(this.radians));
     }
-    match(angle) {
-        return this.radians == angle.radians;
+    negate() {
+        return new Angle(-this.radians);
+    }
+    match(angle, tolerance = 0) {
+        return (0, util_1.matchNumber)(this.radians, angle.radians, tolerance);
     }
     /**
      * Returns a new Angle instance with the same properties
      */
     clone() {
-        return new Angle(this.radians);
+        return new Angle(this);
     }
     /**
      *
@@ -76,6 +85,9 @@ class Angle extends Geometry_1.default {
             radians = a.radians;
         }
         this.radians = (0, util_1.clampToRadians)(radians);
+    }
+    static get zero() {
+        return new Angle(0);
     }
     /**
      * Creates an Angle from degrees

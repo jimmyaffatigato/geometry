@@ -1,4 +1,5 @@
 import Geometry from "./Geometry";
+import Line from "./Line";
 import Point, { PointProps } from "./Point";
 export interface RectangleProps {
     position: PointProps;
@@ -20,12 +21,24 @@ declare class Rectangle extends Geometry<Rectangle, RectangleProps> {
     get y(): number;
     get width(): number;
     get height(): number;
+    get [0](): number;
+    get [1](): number;
+    get [2](): number;
+    get [3](): number;
     get area(): number;
     get perimeter(): number;
     get left(): number;
     get right(): number;
     get top(): number;
     get bottom(): number;
+    get topLeft(): Point;
+    get topRight(): Point;
+    get bottomLeft(): Point;
+    get bottomRight(): Point;
+    get topSide(): Line;
+    get leftSide(): Line;
+    get bottomSide(): Line;
+    get rightSide(): Line;
     setPosition(position: Point): Rectangle;
     setSize(size: Point): Rectangle;
     translate(point: Point): Rectangle;
@@ -39,7 +52,7 @@ declare class Rectangle extends Geometry<Rectangle, RectangleProps> {
     floor(): Rectangle;
     toArray(): [number, number, number, number];
     clone(): Rectangle;
-    match(rectangle: Rectangle): boolean;
+    match(rectangle: Rectangle, tolerance?: number): boolean;
     toObject(): RectangleProps;
     /**
      * `[x, y, w, h]`

@@ -2,7 +2,7 @@ import Angle, { AngleProps } from "./Angle";
 import Geometry from "./Geometry";
 import Line from "./Line";
 import Point from "./Point";
-import { random } from "./util";
+import { matchNumber, random } from "./util";
 
 export interface VectorProps {
     direction: AngleProps;
@@ -49,17 +49,17 @@ class Vector extends Geometry<Vector, VectorProps> {
     }
 
     clone(): Vector {
-        return new Vector(this.direction, this.magnitude);
+        return new Vector(this);
     }
 
-    match(vector: Vector): boolean {
-        return vector.direction == this.direction && vector.magnitude == this.magnitude;
+    match(vector: Vector, tolerance: number = 0): boolean {
+        return this.direction.match(vector.direction, tolerance) && matchNumber(this.magnitude, vector.magnitude);
     }
 
     toPoint(): Point {
         return new Point(
             Math.cos(this.direction.radians) * this.magnitude,
-            -Math.sin(this.direction.radians) * this.magnitude
+            Math.sin(this.direction.radians) * this.magnitude
         );
     }
 
@@ -79,6 +79,7 @@ class Vector extends Geometry<Vector, VectorProps> {
     constructor(direction: AngleProps, magnitude?: number);
     constructor(direction: number, magnitude?: number);
     constructor(direction: VectorProps);
+    constructor(a: Angle | number | VectorProps | AngleProps, b?: number);
     constructor(a: Angle | number | VectorProps | AngleProps, b: number = 0) {
         super("vector");
         let direction: Angle;

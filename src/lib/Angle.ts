@@ -1,6 +1,6 @@
 import Geometry from "./Geometry";
 import Vector from "./Vector";
-import { clampToRadians, degreesToRadians, radiansToDegrees, randomRadians, roundOffZeroes } from "./util";
+import { clampToRadians, degreesToRadians, matchNumber, radiansToDegrees, randomRadians } from "./util";
 
 export interface AngleProps {
     radians: number;
@@ -10,10 +10,18 @@ export interface AngleProps {
  * The Angle class contains a radians property and various helper functions for working with angles.
  */
 class Angle extends Geometry<Angle, AngleProps> {
-    radians: number;
+    readonly radians: number;
 
     get degrees(): number {
         return radiansToDegrees(this.radians);
+    }
+
+    get complement(): Angle {
+        return new Angle(Math.PI / 2).difference(this);
+    }
+
+    get supplement(): Angle {
+        return new Angle(Math.PI).difference(this);
     }
 
     /**
@@ -50,15 +58,19 @@ class Angle extends Geometry<Angle, AngleProps> {
         return new Angle(Math.abs(this.radians));
     }
 
-    match(angle: Angle): boolean {
-        return this.radians == angle.radians;
+    negate(): Angle {
+        return new Angle(-this.radians);
+    }
+
+    match(angle: Angle, tolerance: number = 0): boolean {
+        return matchNumber(this.radians, angle.radians, tolerance);
     }
 
     /**
      * Returns a new Angle instance with the same properties
      */
     clone(): Angle {
-        return new Angle(this.radians);
+        return new Angle(this);
     }
 
     /**
@@ -93,6 +105,10 @@ class Angle extends Geometry<Angle, AngleProps> {
             radians = a.radians;
         }
         this.radians = clampToRadians(radians);
+    }
+
+    static get zero(): Angle {
+        return new Angle(0);
     }
 
     /**

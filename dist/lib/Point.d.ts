@@ -1,5 +1,8 @@
 import Angle from "./Angle";
+import Circle from "./Circle";
 import Geometry from "./Geometry";
+import Line from "./Line";
+import Rectangle from "./Rectangle";
 import Vector from "./Vector";
 export interface PointProps {
     x: number;
@@ -12,6 +15,8 @@ export interface PointProps {
 declare class Point extends Geometry<Point, PointProps> {
     readonly x: number;
     readonly y: number;
+    get [0](): number;
+    get [1](): number;
     translate(x: number, y: number): Point;
     translate(distance: Point): Point;
     moveTowards(point: Point, distance: number): Point;
@@ -35,13 +40,16 @@ declare class Point extends Geometry<Point, PointProps> {
     reflectY(): Point;
     rotate(radians: number, origin?: Point): Point;
     rotate(angle: Angle, origin?: Point): Point;
-    match(point: Point): boolean;
+    match(point: Point, tolerance?: number): boolean;
     /**
      * Returns a new Point instance with the same properties
      */
     clone(): Point;
     toArray(): [number, number];
     toVector(): Vector;
+    toLine(end: Point): Line;
+    toRectangle(size: Point): Rectangle;
+    toCircle(radius: number): Circle;
     toObject(): PointProps;
     toString(digits?: number): string;
     /**

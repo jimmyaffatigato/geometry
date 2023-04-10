@@ -1,6 +1,9 @@
 import Angle from "./Angle";
+import Circle from "./Circle";
 import Geometry from "./Geometry";
-import { random, roundOffZeroes } from "./util";
+import Line from "./Line";
+import Rectangle from "./Rectangle";
+import { matchNumber, random, roundOffZeroes } from "./util";
 import Vector from "./Vector";
 
 export interface PointProps {
@@ -15,6 +18,13 @@ export interface PointProps {
 class Point extends Geometry<Point, PointProps> {
     readonly x: number;
     readonly y: number;
+
+    get [0](): number {
+        return this.x;
+    }
+    get [1](): number {
+        return this.y;
+    }
 
     translate(x: number, y: number): Point;
     translate(distance: Point): Point;
@@ -103,15 +113,15 @@ class Point extends Geometry<Point, PointProps> {
         return this.translate(origin.reflect()).toVector().rotate(a).toPoint().translate(origin);
     }
 
-    match(point: Point): boolean {
-        return this.x == point.x && this.y == point.y;
+    match(point: Point, tolerance: number = 0): boolean {
+        return matchNumber(this.x, point.x, tolerance) && matchNumber(this.y, point.y, tolerance);
     }
 
     /**
      * Returns a new Point instance with the same properties
      */
     clone(): Point {
-        return new Point(this.x, this.y);
+        return new Point(this);
     }
 
     toArray(): [number, number] {
@@ -120,6 +130,18 @@ class Point extends Geometry<Point, PointProps> {
 
     toVector(): Vector {
         return new Vector(Point.zero.direction(this), Point.zero.distance(this));
+    }
+
+    toLine(end: Point): Line {
+        return new Line(this, end);
+    }
+
+    toRectangle(size: Point): Rectangle {
+        return new Rectangle(this, size);
+    }
+
+    toCircle(radius: number): Circle {
+        return new Circle(this, radius);
     }
 
     toObject(): PointProps {

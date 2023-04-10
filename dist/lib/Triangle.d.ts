@@ -22,8 +22,12 @@ declare class Triangle extends Geometry<Triangle, TriangleProps> {
     get bc(): Line;
     get center(): Point;
     get area(): number;
+    translate(a: Point): Triangle;
+    translate(a: number, b: number): Triangle;
+    translate(a: Point | number, b?: number): Triangle;
+    rotate(radians: number, around?: Point): Triangle;
     clone(): Triangle;
-    match(triangle: Triangle): boolean;
+    match(triangle: Triangle, tolerance?: number): boolean;
     toObject(): TriangleProps;
     toString(): string;
     constructor(a: Point, b: Point, c: Point);

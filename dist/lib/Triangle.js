@@ -65,13 +65,24 @@ class Triangle extends Geometry_1.default {
             Math.sqrt(ab.length - bc.length + ac.length) *
             Math.sqrt(ab.length + bc.length - ac.length));
     }
-    clone() {
-        return new Triangle(this.a, this.b, this.c);
+    translate(a, b) {
+        if (a instanceof Point_1.default) {
+            return new Triangle(this.a.translate(a), this.b.translate(a), this.c.translate(a));
+        }
+        else if (typeof a == "number" && typeof b == "number") {
+            return new Triangle(this.a.translate(a, b), this.b.translate(a, b), this.c.translate(a, b));
+        }
     }
-    match(triangle) {
+    rotate(radians, around = this.center) {
+        return new Triangle(this.a.rotate(radians, around), this.b.rotate(radians, around), this.c.rotate(radians, around));
+    }
+    clone() {
+        return new Triangle(this);
+    }
+    match(triangle, tolerance = 0) {
         const { a: a1, b: b1, c: c1 } = this;
         const { a: a2, b: b2, c: c2 } = triangle;
-        return a1.match(a2) && b1.match(b2) && c1.match(c2);
+        return a1.match(a2, tolerance) && b1.match(b2, tolerance) && c1.match(c2, tolerance);
     }
     toObject() {
         return { a: this.a.toObject(), b: this.b.toObject(), c: this.c.toObject() };

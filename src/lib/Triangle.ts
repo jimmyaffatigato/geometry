@@ -75,14 +75,33 @@ class Triangle extends Geometry<Triangle, TriangleProps> {
         );
     }
 
-    clone(): Triangle {
-        return new Triangle(this.a, this.b, this.c);
+    translate(a: Point): Triangle;
+    translate(a: number, b: number): Triangle;
+    translate(a: Point | number, b?: number): Triangle;
+    translate(a: Point | number, b?: number): Triangle {
+        if (a instanceof Point) {
+            return new Triangle(this.a.translate(a), this.b.translate(a), this.c.translate(a));
+        } else if (typeof a == "number" && typeof b == "number") {
+            return new Triangle(this.a.translate(a, b), this.b.translate(a, b), this.c.translate(a, b));
+        }
     }
 
-    match(triangle: Triangle): boolean {
+    rotate(radians: number, around: Point = this.center): Triangle {
+        return new Triangle(
+            this.a.rotate(radians, around),
+            this.b.rotate(radians, around),
+            this.c.rotate(radians, around)
+        );
+    }
+
+    clone(): Triangle {
+        return new Triangle(this);
+    }
+
+    match(triangle: Triangle, tolerance: number = 0): boolean {
         const { a: a1, b: b1, c: c1 } = this;
         const { a: a2, b: b2, c: c2 } = triangle;
-        return a1.match(a2) && b1.match(b2) && c1.match(c2);
+        return a1.match(a2, tolerance) && b1.match(b2, tolerance) && c1.match(c2, tolerance);
     }
 
     toObject(): TriangleProps {

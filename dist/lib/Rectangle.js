@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Geometry_1 = __importDefault(require("./Geometry"));
+const Line_1 = __importDefault(require("./Line"));
 const Point_1 = __importDefault(require("./Point"));
 /**
  * An instance of `Rectangle` contains `position` and `size` properties as well as various methods for working with rectangles.
@@ -29,6 +30,18 @@ class Rectangle extends Geometry_1.default {
     get height() {
         return this.size.y;
     }
+    get [0]() {
+        return this.x;
+    }
+    get [1]() {
+        return this.y;
+    }
+    get [2]() {
+        return this.width;
+    }
+    get [3]() {
+        return this.height;
+    }
     get area() {
         return this.width * this.height;
     }
@@ -46,6 +59,30 @@ class Rectangle extends Geometry_1.default {
     }
     get bottom() {
         return this.y + this.height;
+    }
+    get topLeft() {
+        return this.position;
+    }
+    get topRight() {
+        return new Point_1.default(this.right, this.top);
+    }
+    get bottomLeft() {
+        return new Point_1.default(this.left, this.bottom);
+    }
+    get bottomRight() {
+        return this.position.translate(this.size);
+    }
+    get topSide() {
+        return new Line_1.default(this.topLeft, this.topRight);
+    }
+    get leftSide() {
+        return new Line_1.default(this.topLeft, this.bottomLeft);
+    }
+    get bottomSide() {
+        return new Line_1.default(this.bottomLeft, this.bottomRight);
+    }
+    get rightSide() {
+        return new Line_1.default(this.topRight, this.bottomRight);
     }
     setPosition(position) {
         return new Rectangle(position, this.size);
@@ -87,10 +124,10 @@ class Rectangle extends Geometry_1.default {
         return [this.x, this.y, this.width, this.height];
     }
     clone() {
-        return new Rectangle(this.position, this.size);
+        return new Rectangle(this);
     }
-    match(rectangle) {
-        return this.position.match(rectangle.position) && this.size.match(rectangle.size);
+    match(rectangle, tolerance = 0) {
+        return this.position.match(rectangle.position, tolerance) && this.size.match(rectangle.size, tolerance);
     }
     toObject() {
         return { position: this.position.toObject(), size: this.size.toObject() };
