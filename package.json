@@ -1,12 +1,19 @@
 {
   "name": "geometry",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc -p src/tsconfig.json",
-    "watch": "npm run build -- --watch"
+    "build": "tsc -p ./src/tsconfig.json",
+    "watch": "npm run build -- --watch",
+    "test": "set TS_JEST_DISABLE_VER_CHECKER=true && jest --config=./src/test/all-tests.config.js",
+    "coverage": "set TS_JEST_DISABLE_VER_CHECKER=true && jest --config=./src/test/coverage.config.js"
   },
   "author": "Jimmy Affatigato",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0"
+  }
 }

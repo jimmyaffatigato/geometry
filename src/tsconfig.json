@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
-    "lib": ["ES2021"],
+    "target": "ES2022",
+    "lib": ["ES2022"],
     "declaration": true,
-    "sourceMap": true,
-    "module": "ES2020",
+    "module": "CommonJS",
     "moduleResolution": "node",
-    "outDir": "../dist"
-  }
+    "esModuleInterop": true,
+    "outDir": "../dist",
+    "typeRoots": []
+  },
+  "exclude": ["./test"]
 }
