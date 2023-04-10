@@ -1,11 +1,17 @@
 # Geometry
 
-## Point
+## Angle
 
-## Vector
+## Arc
+
+## Circle
 
 ## Line
 
+## Point
+
 ## Rectangle
 
-## Grid
+## Triangle
+
+## Vector
