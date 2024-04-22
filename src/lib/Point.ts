@@ -186,8 +186,8 @@ class Point extends Geometry<Point, PointProps> {
             x = a.x;
             x = a.y;
         }
-        this.x = roundOffZeroes(x);
-        this.y = roundOffZeroes(y);
+        this.x = x;
+        this.y = y;
     }
 
     /**
